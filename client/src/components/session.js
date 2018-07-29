@@ -4,8 +4,17 @@ import { push } from 'gatsby-link'
 import sharedb from 'sharedb/lib/client'
 
 import { getAccessToken, clearAccessToken } from '../utils/AuthService'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import { withStyles } from '@material-ui/core/styles'
 
 export const SessionContext = React.createContext()
+
+const styles = {
+  progress: {
+    textAlign: 'center',
+    marginTop: '30vh'
+  }
+}
 
 let socket = null
 let connection = false
@@ -72,7 +81,8 @@ class AccessCheck extends React.PureComponent {
 
 class WebsocketConnection extends React.PureComponent {
   static propTypes = {
-    children: propTypes.func.isRequired
+    children: propTypes.func.isRequired,
+    classes: propTypes.object.isRequired
   }
   constructor (props) {
     super(props)
@@ -106,7 +116,12 @@ class WebsocketConnection extends React.PureComponent {
   render () {
     if (!this.state.connected) {
       if (this.state.connecting) {
-        return 'Connecting to web socket connection'
+        return (
+          <div className={this.props.classes.progress}>
+            <CircularProgress />
+            <p>Preparing web socket connection...</p>
+          </div>
+        )
       }
       return 'Not connected to web socket connection'
     }
@@ -115,11 +130,14 @@ class WebsocketConnection extends React.PureComponent {
   }
 }
 
+const WebsocketConnectionWithStyles = withStyles(styles)(WebsocketConnection)
+
 class ShareDBAuth extends React.PureComponent {
   static propTypes = {
     children: propTypes.node.isRequired,
     jwt: propTypes.string.isRequired,
-    setJWT: propTypes.func.isRequired
+    setJWT: propTypes.func.isRequired,
+    classes: propTypes.object.isRequired
   }
   constructor (props) {
     super(props)
@@ -154,9 +172,16 @@ class ShareDBAuth extends React.PureComponent {
     }
   }
   render () {
-    return this.state.authentificated ? this.props.children : null
+    return this.state.authentificated ? this.props.children : <>
+      <div className={this.props.classes.progress}>
+        <CircularProgress />
+        <p>Preparing login...</p>
+      </div>
+      </>
   }
 }
+
+const ShareDBAuthWithStyles = withStyles(styles)(ShareDBAuth)
 
 export class SecureSection extends React.PureComponent {
   static propTypes = {
@@ -168,9 +193,9 @@ export class SecureSection extends React.PureComponent {
       <SessionConsumer>
         {session => (
           <AccessCheck jwt={session.jwt}>
-            <WebsocketConnection>
-              {() => <ShareDBAuth {...session}>{children}</ShareDBAuth>}
-            </WebsocketConnection>
+            <WebsocketConnectionWithStyles>
+              {() => <ShareDBAuthWithStyles {...session}>{children}</ShareDBAuthWithStyles>}
+            </WebsocketConnectionWithStyles>
           </AccessCheck>
         )}
       </SessionConsumer>
