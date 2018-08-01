@@ -1,0 +1,12 @@
+{
+  "alias": "gatsby-starter-collaborative-app",
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  },
+  "env": {
+    "NODE_ENV": "production",
+    "MONGODB_URI": "@mongodb-uri"
+  }
+}
