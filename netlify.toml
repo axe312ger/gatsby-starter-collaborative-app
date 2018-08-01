@@ -1,0 +1,7 @@
+[Settings]
+ID = "gatsby-starter-collaborative-app"
+
+[build]
+  base    = "client/"
+  publish = "client/public/"
+  command = "npm run build"
