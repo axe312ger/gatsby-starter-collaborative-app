@@ -5,3 +5,6 @@ ID = "gatsby-starter-collaborative-app"
   base    = "client/"
   publish = "client/public/"
   command = "npm run build"
+
+[context.deploy-preview]
+  command = "npm run build:netlify-preview"

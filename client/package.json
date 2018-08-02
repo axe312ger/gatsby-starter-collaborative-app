@@ -28,13 +28,17 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
+    "build:netlify-preview":
+      "NODE_ENV=production node scripts/wait-for-now.js && npm run build",
     "develop": "gatsby develop",
     "production": "gatsby build && gatsby serve",
     "format": "prettier --write 'src/**/*.js'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "babel-eslint": "^8.2.6",
+    "delay": "^3.0.0",
     "eslint": "^5.1.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-config-standard-react": "^6.0.0",
@@ -42,6 +46,8 @@
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-standard": "^3.1.0",
+    "find-up": "^3.0.0",
+    "fs-extra": "^7.0.0",
     "prettier": "^1.12.0"
   },
   "private": true
