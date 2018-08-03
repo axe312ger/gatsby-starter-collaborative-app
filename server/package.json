@@ -9,7 +9,7 @@
     "dev:db": "mongod --config /usr/local/etc/mongod.conf",
     "start": "node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "cd .. && now --docker --public"
+    "deploy-production": "cd .. && now --docker --public && now alias"
   },
   "keywords": [],
   "author": "",
