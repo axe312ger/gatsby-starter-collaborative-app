@@ -34,7 +34,7 @@ class Header extends React.PureComponent {
         <Toolbar className={classes.root}>
           <div className={classes.flex}>
             <Button component={Link} to='/' size='large' color='inherit'>
-              {siteTitle}
+              {siteTitle} ⚛️📄🚀📱👆
             </Button>
           </div>
           <div>
