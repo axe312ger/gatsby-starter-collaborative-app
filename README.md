@@ -1,13 +1,13 @@
 # Gatsby Starter Collaborative App
 
-> A Gatsby starter project which demonstrates how to write an app with Gatsby which supports authentification, session management and collaborative editing
+> A Gatsby starter project which demonstrates how to write an app with Gatsby which supports authentication, session management, and collaborative editing
 
 
 It uses the following technologies:
 
 * Collaborative Editing: [ShareDB](https://github.com/share/sharedb)
 * DB backend: [MongoDB](https://www.mongodb.com/) via [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-* Authentification: [Auth0](https://auth0.com/)
+* Authentication: [Auth0](https://auth0.com/)
 * Frontend & Server Side Rendering: [React](https://reactjs.org/) via [Gatsby](https://github.com/gatsbyjs/gatsby)
 * Design: [Material Design (v1)](https://material.io/) with [Material UI](https://material-ui.com/) and [JSS](https://github.com/cssinjs/jss)
 * Frontend Hosting: [Netlify](https://www.netlify.com/)
