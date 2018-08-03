@@ -128,7 +128,7 @@ class ShareDBAuth extends React.PureComponent {
     socket.send(
       JSON.stringify({
         type: 'auth',
-        jwt
+        data: { jwt }
       })
     )
 
