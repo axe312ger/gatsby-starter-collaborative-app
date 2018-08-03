@@ -89,7 +89,7 @@ async function discoverWebsocketURI (URI) {
   console.log(
     `No successful or failed deployment available. Retry #${retries} with ${delayTime} delay`
   )
-  if (retries > 5) {
+  if (retries > 8) {
     throw new Error('Unable to find a successful now.sh deployment')
   }
   await delay(delayTime)
@@ -97,17 +97,10 @@ async function discoverWebsocketURI (URI) {
 }
 
 async function run () {
-  console.log({
-    path: `.env.${process.env.NODE_ENV}`,
-    base: process.env.NETLIFY_BUILD_BASE,
-    cwd: process.cwd()
-  })
   // Init env variables based on node env
   const dotEnvName = `.env.${process.env.NODE_ENV}`
   const findUpResult = await findUp(dotEnvName)
   const dotEnvPath = findUpResult || resolve(process.cwd(), dotEnvName)
-
-  console.log({ dotEnvName, findUpResult, dotEnvPath })
 
   require(`dotenv`).config({
     path: dotEnvPath
