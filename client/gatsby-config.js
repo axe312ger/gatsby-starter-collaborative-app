@@ -9,7 +9,7 @@ const { palette } = pageContext.theme
 
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Collaborative App`
+    title: `Collaborative App`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -22,8 +22,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Gatsby Collaborative App`,
-        short_name: `Collaborative App`,
+        name: `Collaborative App`,
+        short_name: `⚛️📄🚀📱👆`,
         start_url: `/`,
         background_color: palette.background.default,
         theme_color: palette.primary.main,
