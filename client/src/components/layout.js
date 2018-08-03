@@ -3,11 +3,9 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 
-import CssBaseline from '@material-ui/core/CssBaseline'
-
-import { getPageContext } from '../utils/PageContext'
+import withRoot from '../utils/withRoot'
 
 import Header from './header'
 import { SessionProvider } from './session'
@@ -34,16 +32,9 @@ const styles = {
 class Layout extends React.Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    pageContext: PropTypes.object,
     classes: PropTypes.object.isRequired
   }
-  pageContext = null
 
-  constructor (props) {
-    super(props)
-
-    this.pageContext = this.props.pageContext || getPageContext()
-  }
   render () {
     const { children, classes } = this.props
 
@@ -59,29 +50,25 @@ class Layout extends React.Component {
           }
         `}
         render={data => (
-          <MuiThemeProvider
-            theme={this.pageContext.theme}
-            sheetsManager={this.pageContext.sheetsManager}
-          >
-            <CssBaseline />
-            <SessionProvider>
-              <Helmet
-                title={data.site.siteMetadata.title}
-                meta={[
-                  { name: 'description', content: 'Sample' },
-                  { name: 'keywords', content: 'sample, something' }
-                ]}
-              />
-              <div className={classes.wrapper}>
-                <Header siteTitle={data.site.siteMetadata.title} />
-                <div className={classes.content}>{children}</div>
+          <SessionProvider>
+            <Helmet
+              title={data.site.siteMetadata.title}
+              meta={[
+                { name: 'description', content: 'Sample' },
+                { name: 'keywords', content: 'sample, something' }
+              ]}
+            />
+            <div className={classes.wrapper} wrapper='true'>
+              <Header siteTitle={data.site.siteMetadata.title} />
+              <div className={classes.content} content='true'>
+                {children}
               </div>
-            </SessionProvider>
-          </MuiThemeProvider>
+            </div>
+          </SessionProvider>
         )}
       />
     )
   }
 }
 
-export default withStyles(styles)(Layout)
+export default withRoot(withStyles(styles)(Layout))
