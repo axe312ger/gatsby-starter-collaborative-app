@@ -2,8 +2,9 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    'cypress/globals': true,
   },
-  plugins: ['react'],
+  plugins: ['cypress', 'react'],
   globals: {
     graphql: false,
   },

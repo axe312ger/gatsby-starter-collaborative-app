@@ -60,9 +60,9 @@ class Layout extends React.Component {
             />
             <div className={classes.wrapper} wrapper='true'>
               <Header siteTitle={data.site.siteMetadata.title} />
-              <div className={classes.content} content='true'>
+              <main className={classes.content} content='true'>
                 {children}
-              </div>
+              </main>
             </div>
           </SessionProvider>
         )}

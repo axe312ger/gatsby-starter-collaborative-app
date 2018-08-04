@@ -7,6 +7,7 @@
     "@material-ui/core": "^1.4.0",
     "@material-ui/icons": "^1.1.0",
     "auth0-js": "^9.7.2",
+    "better-npm-run": "^0.1.1",
     "dotenv": "^6.0.0",
     "gatsby": "^2.0.0-beta.55",
     "gatsby-plugin-manifest": "^1.0.27",
@@ -30,27 +31,46 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "build:netlify-preview":
-      "NODE_ENV=production node scripts/deploy-preview-set-uri.js && npm run build",
+    "build:netlify-preview": "NODE_ENV=production node scripts/deploy-preview-set-uri.js && npm run build",
     "develop": "gatsby develop",
     "production": "gatsby build && gatsby serve",
     "format": "prettier --write 'src/**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "better-npm-run test",
+    "test:dev": "better-npm-run test:dev",
+    "test:cypress": "cypress run",
+    "test:cypress:dev": "cypress open"
+  },
+  "betterScripts": {
+    "test": {
+      "command": "start-server-and-test production $CYPRESS_baseUrl test:cypress",
+      "env": {
+        "CYPRESS_baseUrl": "http://localhost:9000"
+      }
+    },
+    "test:dev": {
+      "command": "start-server-and-test develop $CYPRESS_baseUrl test:cypress:dev",
+      "env": {
+        "CYPRESS_baseUrl": "http://localhost:8000"
+      }
+    }
   },
   "devDependencies": {
     "axios": "^0.18.0",
     "babel-eslint": "^8.2.6",
+    "cypress": "^3.0.3",
     "delay": "^3.0.0",
     "eslint": "^5.1.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-config-standard-react": "^6.0.0",
+    "eslint-plugin-cypress": "^2.0.1",
     "eslint-plugin-node": "^7.0.1",
     "eslint-plugin-promise": "^3.8.0",
     "eslint-plugin-react": "^7.10.0",
     "eslint-plugin-standard": "^3.1.0",
     "find-up": "^3.0.0",
     "fs-extra": "^7.0.0",
-    "prettier": "^1.12.0"
+    "prettier": "^1.12.0",
+    "start-server-and-test": "^1.7.0"
   },
   "private": true
 }
