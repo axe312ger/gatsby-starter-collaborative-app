@@ -1,2 +1,4 @@
 /public
 dist
+cypress/screenshots
+cypress/videos
