@@ -1,13 +1,15 @@
 import React from 'react'
 import Link from 'gatsby-link'
+import propTypes from 'prop-types'
 
 import Button from '@material-ui/core/Button'
 
 import Layout from '../components/layout'
+import { graphql } from 'gatsby'
 
-const IndexPage = () => (
+const IndexPage = ({ data }) => (
   <Layout>
-    <h1>Gatsby Starter Collaboration</h1>
+    <div dangerouslySetInnerHTML={{ __html: data.allFile.edges[0].node.childMarkdownRemark.html }} />
     <Button
       component={Link}
       to='/login'
@@ -20,4 +22,31 @@ const IndexPage = () => (
   </Layout>
 )
 
+IndexPage.propTypes = {
+  data: propTypes.object.isRequired
+}
+
 export default IndexPage
+export const query = graphql`
+query indexPageQuery {
+  allFile (
+    filter: {
+      relativePath: { eq: "README.md" }
+    }
+  ) {
+    edges {
+      node {
+        id
+        parent {
+          id
+        }
+        sourceInstanceName
+        relativePath
+        childMarkdownRemark {
+          html
+        }
+      }
+    }
+  }
+}
+`
