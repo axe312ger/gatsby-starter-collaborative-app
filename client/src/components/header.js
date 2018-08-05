@@ -6,6 +6,12 @@ import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
+import IconButton from '@material-ui/core/IconButton'
+import MenuIcon from '@material-ui/icons/Menu'
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
+import ListItemText from '@material-ui/core/ListItemText'
 
 import { login, logout } from '../utils/AuthService'
 import { SessionConsumer } from '../components/session'
@@ -33,6 +39,52 @@ class Header extends React.PureComponent {
       <AppBar position='static'>
         <Toolbar className={classes.root}>
           <div className={classes.flex}>
+            <IconButton
+              className={classes.menuButton}
+              onClick={this.toggleDrawer()}
+              color='inherit'
+              aria-label='Menu'
+            >
+              <MenuIcon />
+            </IconButton>
+            <SwipeableDrawer
+              open={this.state.drawerOpen}
+              onClose={this.toggleDrawer()}
+              onOpen={this.toggleDrawer()}
+            >
+              <List component='nav'>
+                <ListItem
+                  onClick={this.toggleDrawer()}
+                  component={Link}
+                  to={`/`}
+                >
+                  <ListItemText primary='Home' />
+                </ListItem>
+                <ListItem
+                  onClick={this.toggleDrawer()}
+                  component={Link}
+                  to={`/app`}
+                >
+                  <ListItemText primary='Counters' />
+                </ListItem>
+                <SessionConsumer>
+                  {({ jwt }) =>
+                    jwt ? (
+                      <ListItem onClick={logout} component={Link}>
+                        <ListItemText primary='Logout' />
+                      </ListItem>
+                    ) : (
+                      <ListItem onClick={logout} component={Link}>
+                        <ListItemText
+                          primary='Login'
+                          onClick={this.toggleDrawer()}
+                        />
+                      </ListItem>
+                    )
+                  }
+                </SessionConsumer>
+              </List>
+            </SwipeableDrawer>
             <Button component={Link} to='/' size='large' color='inherit'>
               {siteTitle}
             </Button>
