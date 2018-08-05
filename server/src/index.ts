@@ -1,10 +1,11 @@
+import * as fs from 'fs'
 import * as http from 'http'
 import * as https from 'https'
-import * as fs from 'fs'
 import * as util from 'util'
 
+import dotenv from 'dotenv'
 import express from 'express'
-import jwt from 'jsonwebtoken'
+import { verify } from 'jsonwebtoken'
 import jwksClient from 'jwks-rsa'
 import ShareDB from 'sharedb'
 import shareDbAccess from 'sharedb-access'
@@ -12,11 +13,11 @@ import sharedbMongo from 'sharedb-mongo'
 import WebSocketJSONStream from 'websocket-json-stream'
 import WebSocket from 'ws'
 
-require('dotenv').config({
+dotenv.config({
   path: `.env.${process.env.NODE_ENV || 'development'}`
 })
 
-const jwtVerify = util.promisify(jwt.verify)
+const jwtVerify = util.promisify(verify)
 
 const USES_SSL = process.env.SSL_KEY && process.env.SSL_CERT
 const SSL_KEY = process.env.SSL_KEY || '' // @todo remove hacky typecasting to make typescript happy
@@ -48,7 +49,7 @@ shareDbBackend.allowUpdate(
     docId: string,
     oldDoc: ShareDbDoc,
     newDoc: ShareDbDoc,
-    ops: Array<ShareDbOp>,
+    ops: ShareDbOp[],
     session: Session
   ) => {
     console.log('update example', docId, 'by user', session.token.sub)
@@ -62,7 +63,7 @@ shareDbBackend.allowDelete(
     docId: string,
     oldDoc: ShareDbDoc,
     newDoc: ShareDbDoc,
-    ops: Array<ShareDbOp>,
+    ops: ShareDbOp[],
     session: Session
   ) => {
     console.log('delete example', docId, 'by user', session.token.sub)
@@ -70,7 +71,7 @@ shareDbBackend.allowDelete(
   }
 )
 
-shareDbBackend.use('connect', (request: ShareDbRequest, next: Function) => {
+shareDbBackend.use('connect', (request: ShareDbRequest, next: () => void) => {
   const { token, jwt } = request.req
   request.agent.connectSession = { token, jwt }
   console.log('ShareDB connection established with user', token.sub)
@@ -83,7 +84,7 @@ function startServer() {
   // Create a web server to serve files and listen to WebSocket connections
   const app = express()
 
-  app.get('/', function(req, res) {
+  app.get('/', (req, res) => {
     res.send('This is an API. You should not be here. Go away! :trollface:')
   })
   let server
@@ -100,8 +101,8 @@ function startServer() {
   }
 
   // Connect any incoming WebSocket connection to ShareDB
-  const wss = new WebSocket.Server({ server: server })
-  wss.on('connection', function(ws, req: Request) {
+  const wss = new WebSocket.Server({ server })
+  wss.on('connection', (ws, req: Request) => {
     const stream = new WebSocketJSONStream(ws)
 
     console.log('new websocket connection')
@@ -153,13 +154,19 @@ async function verifyToken(token: string) {
       'https://gatsby-starter-collaborative-app.eu.auth0.com/.well-known/jwks.json'
   })
 
-  function getKey(header: any, callback: Function) {
-    client.getSigningKey(header.kid, function(err, key) {
+  function getKey(
+    header: any,
+    callback: (err: Error | null, signingKey?: string) => void
+  ) {
+    client.getSigningKey(header.kid, (err, key) => {
       if (err) {
         console.error(err)
       }
       try {
         const signingKey = key.publicKey || key.rsaPublicKey
+        if (!signingKey) {
+          callback(new Error('Unable to extract key'))
+        }
         callback(null, signingKey)
       } catch (err) {
         console.error(err)
