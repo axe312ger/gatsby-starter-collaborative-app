@@ -52,6 +52,9 @@ class Layout extends React.Component {
         render={data => (
           <SessionProvider>
             <Helmet
+              htmlAttributes={{
+                lang: 'en'
+              }}
               title={data.site.siteMetadata.title}
               meta={[
                 { name: 'description', content: 'Sample' },
