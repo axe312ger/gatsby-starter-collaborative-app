@@ -10,7 +10,7 @@ const { palette } = pageContext.theme
 
 module.exports = {
   siteMetadata: {
-    title: `Collaborative App`
+    title: `⏱ Clicker`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -31,8 +31,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Collaborative App`,
-        short_name: `⚛️📄🚀📱👆`,
+        name: `⏱ Clicker`,
+        short_name: `⏱`,
         start_url: `/`,
         background_color: palette.background.default,
         theme_color: palette.primary.main,
