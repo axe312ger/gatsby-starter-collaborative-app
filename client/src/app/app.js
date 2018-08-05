@@ -10,36 +10,36 @@ import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
 import TouchAppIcon from '@material-ui/icons/TouchApp'
 
-import Counter from './counter'
+import Clicker from './clicker'
 
 import { BackendConnection } from '../components/session'
 
-class CounterList extends React.Component {
+class ClickerList extends React.Component {
   static propTypes = {
     connection: propTypes.object.isRequired
   }
   constructor (props) {
     super(props)
-    this.state = { counters: [] }
+    this.state = { clickers: [] }
   }
   componentDidMount () {
     const { connection } = this.props
     const query = connection.createFetchQuery('examples', {
       // numClicks: 137 @todo scope by subscription
     })
-    query.on('ready', () => this.setState({ counters: query.results }))
+    query.on('ready', () => this.setState({ clickers: query.results }))
     query.on('error', err => alert(err.message))
   }
   render () {
-    const counters = this.state.counters.map(counterDoc => {
+    const clickers = this.state.clickers.map(clickerDoc => {
       return (
-        <div key={counterDoc.id}>
-          <ListItem component={Link} to={`/app/counters/${counterDoc.id}`}>
+        <div key={clickerDoc.id}>
+          <ListItem component={Link} to={`/app/clickers/${clickerDoc.id}`}>
             <ListItemIcon>
               <TouchAppIcon />
             </ListItemIcon>
             <ListItemText>
-              {`${counterDoc.id} with ${counterDoc.data.numClicks} clicks`}
+              {`${clickerDoc.id} with ${clickerDoc.data.numClicks} clicks`}
             </ListItemText>
           </ListItem>
           <Divider />
@@ -48,8 +48,8 @@ class CounterList extends React.Component {
     })
     return (
       <>
-        <h1>Your Counters:</h1>
-        <List>{counters}</List>
+        <h1>Your Clickers:</h1>
+        <List>{clickers}</List>
       </>
     )
   }
@@ -62,9 +62,9 @@ export default class App extends React.Component {
         {({ connection }) => (
           <Switch>
             <Route
-              path='/app/counters/:docId'
+              path='/app/clickers/:docId'
               render={route => (
-                <Counter
+                <Clicker
                   connection={connection}
                   docId={route.match.params.docId}
                 />
@@ -72,7 +72,7 @@ export default class App extends React.Component {
             />
             <Route
               path='/app'
-              render={() => <CounterList connection={connection} />}
+              render={() => <ClickerList connection={connection} />}
             />
           </Switch>
         )}

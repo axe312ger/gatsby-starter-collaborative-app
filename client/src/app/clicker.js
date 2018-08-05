@@ -15,7 +15,7 @@ const styles = {
   }
 }
 
-class Counter extends React.Component {
+class Clicker extends React.Component {
   static propTypes = {
     connection: PropTypes.object.isRequired,
     docId: PropTypes.string.isRequired,
@@ -66,8 +66,8 @@ class Counter extends React.Component {
     const times = this.state.value
     return (
       <div>
-        <h1>{`Counter: ${docId}`}</h1>
-        <p>{`You clicked ${times} times.`}</p>
+        <h1>{`Clicker with id ${docId}`}</h1>
+        <p>{`Clicked ${times} times.`}</p>
         <div className={classes.buttons}>
           <Button
             variant='fab'
@@ -78,7 +78,7 @@ class Counter extends React.Component {
             <AddIcon />
           </Button>
           <Button component={Link} to='/app'>
-            Back to your counters
+            All Clickers
           </Button>
         </div>
       </div>
@@ -86,4 +86,4 @@ class Counter extends React.Component {
   }
 }
 
-export default withStyles(styles)(Counter)
+export default withStyles(styles)(Clicker)
