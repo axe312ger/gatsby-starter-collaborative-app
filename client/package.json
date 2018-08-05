@@ -35,6 +35,7 @@
     "develop": "gatsby develop",
     "production": "gatsby build && gatsby serve",
     "format": "prettier --write 'src/**/*.js'",
+    "lint": "eslint src",
     "test": "better-npm-run test",
     "test:dev": "better-npm-run test:dev",
     "test:cypress": "cypress run",
