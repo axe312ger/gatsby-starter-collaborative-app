@@ -4,7 +4,6 @@ import propTypes from 'prop-types'
 
 import { SessionConsumer, SecureSection } from '../components/session'
 import { login } from '../utils/AuthService'
-
 import Layout from '../components/layout'
 
 class LoginHandler extends React.PureComponent {
@@ -42,8 +41,6 @@ export default class LoginPage extends React.PureComponent {
         <SessionConsumer>
           {({ jwt }) => <LoginHandler jwt={jwt} />}
         </SessionConsumer>
-        <h1>Preparing login...</h1>
-        <p>You should be redirected any moment!</p>
       </Layout>
     )
   }
