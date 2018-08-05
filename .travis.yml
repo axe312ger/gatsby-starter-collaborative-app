@@ -5,6 +5,7 @@ cache:
   directories:
     - client/node_modules
     - server/node_modules
+    - /home/travis/.cache/Cypress
 jobs:
   include:
     - stage: client
