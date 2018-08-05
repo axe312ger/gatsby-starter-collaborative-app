@@ -1,3 +1,4 @@
+const path = require('path')
 require(`dotenv`).config({
   path: `.env.${process.env.NODE_ENV}`
 })
@@ -19,6 +20,14 @@ module.exports = {
         pathToConfigModule: `src/utils/typography`
       }
     },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: path.resolve(__dirname, '..'),
+        name: `markdown-pages`
+      }
+    },
+    `gatsby-transformer-remark`,
     {
       resolve: `gatsby-plugin-manifest`,
       options: {

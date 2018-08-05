@@ -13,6 +13,8 @@
     "gatsby-plugin-offline": "^1.0.18",
     "gatsby-plugin-react-helmet": "^3.0.0-beta.4",
     "gatsby-plugin-typography": "^1.7.19",
+    "gatsby-source-filesystem": "^2.0.1-beta.10",
+    "gatsby-transformer-remark": "^2.1.1-beta.5",
     "jss": "^9.8.7",
     "jwt-decode": "^2.2.0",
     "prop-types": "^15.6.2",
