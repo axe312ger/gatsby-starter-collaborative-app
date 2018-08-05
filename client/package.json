@@ -32,7 +32,7 @@
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
-    "build:netlify-preview": "NODE_ENV=production node scripts/deploy-preview-set-uri.js && npm run build",
+    "build:netlify-preview": "node scripts/deploy-preview-set-uri.js && npm run build",
     "develop": "gatsby develop",
     "production": "gatsby build && gatsby serve",
     "format": "prettier --write 'src/**/*.js'",
