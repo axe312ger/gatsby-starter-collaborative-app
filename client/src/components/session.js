@@ -114,10 +114,11 @@ class WebsocketConnection extends React.PureComponent {
   }
 
   render () {
+    const { progress } = this.props.classes
     if (!this.state.connected) {
       if (this.state.connecting) {
         return (
-          <div className={this.props.classes.progress}>
+          <div className={progress}>
             <CircularProgress />
             <p>Preparing web socket connection...</p>
           </div>
@@ -172,8 +173,9 @@ class ShareDBAuth extends React.PureComponent {
     }
   }
   render () {
+    const { progress } = this.props.classes
     return this.state.authentificated ? this.props.children : <>
-      <div className={this.props.classes.progress}>
+      <div className={progress}>
         <CircularProgress />
         <p>Preparing login...</p>
       </div>
