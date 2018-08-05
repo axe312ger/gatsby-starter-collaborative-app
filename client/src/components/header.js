@@ -65,7 +65,7 @@ class Header extends React.PureComponent {
                   component={Link}
                   to={`/app`}
                 >
-                  <ListItemText primary='Counters' />
+                  <ListItemText primary='Clicker' />
                 </ListItem>
                 <SessionConsumer>
                   {({ jwt }) =>
