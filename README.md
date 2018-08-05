@@ -21,16 +21,16 @@ After all, it is a combination of the following starters, tutorials & examples:
 * Session management: https://github.com/gatsbyjs/gatsby/tree/master/examples/simple-auth
 
 
-# Setup
+## Setup
 
 You may start with the client, it is a Gatsby project with everything you need for a proper progressive web app. This takes 2 minutes.
 
 After the client is running, set up the server locally. This takes 5 minutes.
 
-## Client Setup
+### Client Setup
 
 Please see the client [README.md](./client/README.md)
 
-## Server Setup
+### Server Setup
 
 Please see the server [README.md](./server/README.md)
