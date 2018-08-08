@@ -13,6 +13,7 @@ import TouchAppIcon from '@material-ui/icons/TouchApp'
 import Clicker from './clicker'
 
 import { BackendConnection } from '../components/session'
+import Modal from '../components/modal'
 
 class ClickerList extends React.Component {
   static propTypes = {
@@ -55,15 +56,54 @@ class ClickerList extends React.Component {
   }
 }
 
+class ErrorBoundary extends React.Component {
+  static propTypes = {
+    children: propTypes.node.isRequired
+  }
+  state = {
+    error: null,
+    info: null
+  }
+  componentDidCatch (error, info) {
+    this.setState({ error, info })
+  }
+  shouldComponentUpdate (newProps, newState) {
+    if (
+      newProps.children !== this.props.children ||
+      newState.error !== this.state.error
+    ) {
+      return true
+    }
+    return false
+  }
+  render () {
+    const { error } = this.state
+    const { children } = this.props
+    if (error) {
+      return (
+        <Modal
+          title='Oh snap! Something went wrong 😱'
+          text={error.message}
+          buttonLabel='Reload and 🤞'
+          callback={() => location.reload()}
+        />
+      )
+    }
+    return children
+  }
+}
+
 export default class App extends React.Component {
   render () {
     return (
       <BackendConnection>
         {({ connection }) => (
-          <Router basepath='/app'>
-            <Clicker path='/clickers/:docId' connection={connection} />
-            <ClickerList path='/' connection={connection} />
-          </Router>
+          <ErrorBoundary>
+            <Router basepath='/app'>
+              <Clicker path='/clickers/:docId' connection={connection} />
+              <ClickerList path='/' connection={connection} />
+            </Router>
+          </ErrorBoundary>
         )}
       </BackendConnection>
     )

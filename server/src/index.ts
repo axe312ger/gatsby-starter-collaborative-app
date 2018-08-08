@@ -115,19 +115,19 @@ function startServer() {
         const { jwt } = data
         console.log('login: verifying token')
 
-        let decodedJwt
         try {
-          decodedJwt = await verifyToken(jwt)
+          const decodedJwt = await verifyToken(jwt)
 
           console.log('login: token verified')
           ws.send(JSON.stringify({ type: 'auth_success' }))
 
-          // TODO: do we need req here? Don't think so
+          // Init shareDB backend for this user
           shareDbBackend.listen(stream, { jwt, token: decodedJwt })
         } catch (e) {
           console.log('login: token denied')
-          ws.send(JSON.stringify({ type: 'auth_error' }))
           console.error(e)
+          const { name } = e
+          ws.send(JSON.stringify({ type: 'auth_error', name }))
         }
       }
     })
