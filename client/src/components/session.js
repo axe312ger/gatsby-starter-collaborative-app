@@ -3,9 +3,11 @@ import propTypes from 'prop-types'
 import { push } from 'gatsby-link'
 import sharedb from 'sharedb/lib/client'
 
-import { getAccessToken, clearAccessToken } from '../utils/AuthService'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { withStyles } from '@material-ui/core/styles'
+
+import Modal from './modal'
+import { getAccessToken, clearAccessToken } from '../utils/AuthService'
 
 export const SessionContext = React.createContext()
 
@@ -70,8 +72,7 @@ class AccessCheck extends React.PureComponent {
 
     // @todo consider validation token expiration in client
     if (!jwt) {
-      console.log('Access error - you should be logged in to see this page')
-      push('/')
+      throw new Error('You are not logged in')
     }
   }
   render () {
@@ -140,9 +141,12 @@ class ShareDBAuth extends React.PureComponent {
     setJWT: propTypes.func.isRequired,
     classes: propTypes.object.isRequired
   }
+  state = {
+    error: null
+  }
   constructor (props) {
     super(props)
-    const { jwt, setJWT } = props
+    const { jwt } = props
 
     socket.send(
       JSON.stringify({
@@ -154,17 +158,12 @@ class ShareDBAuth extends React.PureComponent {
     socket.onmessage = message => {
       const data = JSON.parse(message.data)
       if (data.type === 'auth_success') {
-        console.log('Authentificated successfully via web sockets')
         connection = new sharedb.Connection(socket)
         this.setState({ authentificated: true })
         return
       }
       if (data.type === 'auth_error') {
-        console.log('Authentificated failed via web sockets')
-        alert('Authentification failed. Please log in again.')
-        clearAccessToken()
-        setJWT(null)
-        push('/')
+        this.setState({ error: new Error(data.name) })
       }
     }
 
@@ -172,18 +171,68 @@ class ShareDBAuth extends React.PureComponent {
       authentificated: false
     }
   }
+  componentDidUpdate () {
+    const { setJWT } = this.props
+    if (this.state.error) {
+      clearAccessToken()
+      setJWT(null)
+      throw this.state.error
+    }
+  }
   render () {
     const { progress } = this.props.classes
-    return this.state.authentificated ? this.props.children : <>
-      <div className={progress}>
-        <CircularProgress />
-        <p>Preparing login...</p>
-      </div>
+    return this.state.authentificated ? (
+      this.props.children
+    ) : (
+      <>
+        <div className={progress}>
+          <CircularProgress />
+          <p>Preparing login...</p>
+        </div>
       </>
+    )
   }
 }
 
 const ShareDBAuthWithStyles = withStyles(styles)(ShareDBAuth)
+
+class ErrorBoundary extends React.Component {
+  static propTypes = {
+    children: propTypes.node.isRequired
+  }
+  state = {
+    error: null,
+    info: null
+  }
+  componentDidCatch (error, info) {
+    this.setState({ error, info })
+  }
+  shouldComponentUpdate (newProps, newState) {
+    if (
+      newProps.children !== this.props.children ||
+      newState.error !== this.state.error
+    ) {
+      return true
+    }
+    return false
+  }
+  render () {
+    const { error } = this.state
+    const { children } = this.props
+    if (error) {
+      return (
+        <Modal
+          title='Oh snap! Login failed 😱'
+          text={`Something went wrong with your login, probably your session is just expired. We will try to log you in again. (${
+            error.message
+          })`}
+          callback={() => push('/login')}
+        />
+      )
+    }
+    return children
+  }
+}
 
 export class SecureSection extends React.PureComponent {
   static propTypes = {
@@ -194,11 +243,17 @@ export class SecureSection extends React.PureComponent {
     return (
       <SessionConsumer>
         {session => (
-          <AccessCheck jwt={session.jwt}>
-            <WebsocketConnectionWithStyles>
-              {() => <ShareDBAuthWithStyles {...session}>{children}</ShareDBAuthWithStyles>}
-            </WebsocketConnectionWithStyles>
-          </AccessCheck>
+          <ErrorBoundary>
+            <AccessCheck jwt={session.jwt}>
+              <WebsocketConnectionWithStyles>
+                {() => (
+                  <ShareDBAuthWithStyles {...session}>
+                    {children}
+                  </ShareDBAuthWithStyles>
+                )}
+              </WebsocketConnectionWithStyles>
+            </AccessCheck>
+          </ErrorBoundary>
         )}
       </SessionConsumer>
     )
