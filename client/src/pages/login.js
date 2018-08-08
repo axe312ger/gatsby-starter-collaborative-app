@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect } from '@reach/router'
 import propTypes from 'prop-types'
 
 import { SessionConsumer } from '../components/session'

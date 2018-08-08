@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Router } from '@reach/router'
 import propTypes from 'prop-types'
 import { Link } from 'gatsby'
 
@@ -60,21 +60,10 @@ export default class App extends React.Component {
     return (
       <BackendConnection>
         {({ connection }) => (
-          <Switch>
-            <Route
-              path='/app/clickers/:docId'
-              render={route => (
-                <Clicker
-                  connection={connection}
-                  docId={route.match.params.docId}
-                />
-              )}
-            />
-            <Route
-              path='/app'
-              render={() => <ClickerList connection={connection} />}
-            />
-          </Switch>
+          <Router basepath='/app'>
+            <Clicker path='/clickers/:docId' connection={connection} />
+            <ClickerList path='/' connection={connection} />
+          </Router>
         )}
       </BackendConnection>
     )
