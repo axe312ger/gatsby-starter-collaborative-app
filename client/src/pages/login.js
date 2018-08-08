@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect } from '@reach/router'
+import { push } from 'gatsby'
 import propTypes from 'prop-types'
 
 import { SessionConsumer } from '../components/session'
@@ -16,17 +16,15 @@ class LoginHandler extends React.PureComponent {
   redirectIfNoToken () {
     const { jwt } = this.props
     if (!jwt) {
-      login()
+      return login()
     }
+    return push('/app')
   }
   componentWillUpdate () {
     this.redirectIfNoToken()
   }
   render () {
-    if (!this.props.jwt) {
-      return null
-    }
-    return <Redirect to='/app' />
+    return null
   }
 }
 
