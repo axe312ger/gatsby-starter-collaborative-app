@@ -2,7 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import propTypes from 'prop-types'
 
-import { SessionConsumer, SecureSection } from '../components/session'
+import { SessionConsumer } from '../components/session'
 import { login } from '../utils/AuthService'
 import Layout from '../components/layout'
 
@@ -26,11 +26,7 @@ class LoginHandler extends React.PureComponent {
     if (!this.props.jwt) {
       return null
     }
-    return (
-      <SecureSection>
-        <Redirect to='/app' />
-      </SecureSection>
-    )
+    return <Redirect to='/app' />
   }
 }
 

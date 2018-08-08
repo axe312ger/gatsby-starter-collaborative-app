@@ -13,7 +13,7 @@ class LoginCallbackHandler extends React.PureComponent {
   componentDidMount () {
     const { setJWT, jwt } = this.props
     setJWT(jwt)
-    push('/login')
+    push('/app')
   }
   render () {
     return null
