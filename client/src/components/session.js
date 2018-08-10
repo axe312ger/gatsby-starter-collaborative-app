@@ -226,6 +226,7 @@ class ErrorBoundary extends React.Component {
           text={`Something went wrong with your login, probably your session is just expired. We will try to log you in again. (${
             error.message
           })`}
+          buttonLabel='Login again'
           callback={() => push('/login')}
         />
       )
