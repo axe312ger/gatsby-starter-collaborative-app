@@ -2,7 +2,6 @@
 
 > A Gatsby starter project which demonstrates how to write an app with Gatsby which supports authentication, session management, and collaborative editing
 
-
 It uses the following technologies:
 
 * Collaborative Editing: [ShareDB](https://github.com/share/sharedb)
@@ -19,7 +18,13 @@ After all, it is a combination of the following starters, tutorials & examples:
 * Collaborative functionallity: https://github.com/share/sharedb/tree/master/examples/counter
 * Authentification: https://auth0.com/docs/quickstart/spa/react
 * Session management: https://github.com/gatsbyjs/gatsby/tree/master/examples/simple-auth
+* UI: https://github.com/mui-org/material-ui/tree/master/examples/gatsby
+* Forms: https://github.com/final-form/react-final-form#material-ui-10
 
+## Mentionable frontend dependencies
+
+* Painless form management and UX via [react-final-form](https://github.com/final-form/react-final-form)
+* @todo complete this list
 
 ## Setup
 

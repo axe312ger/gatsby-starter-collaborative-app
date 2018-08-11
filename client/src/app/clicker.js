@@ -5,6 +5,7 @@ import { Link } from 'gatsby'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/ExposurePlus1'
 import { withStyles } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const styles = {
   buttons: {
@@ -20,6 +21,10 @@ class Clicker extends React.Component {
     connection: PropTypes.object.isRequired,
     docId: PropTypes.string.isRequired,
     classes: PropTypes.object.isRequired
+  }
+  state = {
+    doc: null,
+    value: 0
   }
   constructor (props) {
     super(props)
@@ -44,8 +49,7 @@ class Clicker extends React.Component {
     })
 
     this.state = {
-      doc,
-      value: 0
+      doc
     }
   }
   shouldComponentUpdate (nextProps, nextState) {
@@ -62,11 +66,19 @@ class Clicker extends React.Component {
     this.setState({ value: this.state.doc.data.numClicks })
   }
   render () {
-    const { docId, classes } = this.props
+    const { classes } = this.props
+    const { doc } = this.state
+
+    if (!doc.data) {
+      return <CircularProgress />
+    }
+
+    const { name } = doc.data
     const times = this.state.value
+
     return (
       <div>
-        <h1>{`Clicker with id ${docId}`}</h1>
+        <h1>{name}</h1>
         <p>{`Clicked ${times} times.`}</p>
         <div className={classes.buttons}>
           <Button
