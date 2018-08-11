@@ -2,6 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 import { Link } from 'gatsby'
 
+import Button from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -21,21 +22,22 @@ class ClickerList extends React.Component {
     const { connection } = this.props
     const query = connection.createFetchQuery('examples', {
       // numClicks: 137 @todo scope by subscription
+      $sort: { numClicks: -1 }
     })
     query.on('ready', () => this.setState({ clickers: query.results }))
     query.on('error', err => alert(err.message))
   }
   render () {
     const clickers = this.state.clickers.map(clickerDoc => {
+      const { id, data } = clickerDoc
+      const { name, numClicks } = data
       return (
         <div key={clickerDoc.id}>
-          <ListItem component={Link} to={`/app/clickers/${clickerDoc.id}`}>
+          <ListItem component={Link} to={`/app/clickers/${id}`}>
             <ListItemIcon>
               <TouchAppIcon />
             </ListItemIcon>
-            <ListItemText>
-              {`${clickerDoc.id} with ${clickerDoc.data.numClicks} clicks`}
-            </ListItemText>
+            <ListItemText>{`${name} with ${numClicks} clicks`}</ListItemText>
           </ListItem>
           <Divider />
         </div>
@@ -45,6 +47,9 @@ class ClickerList extends React.Component {
       <>
         <h1>Your Clickers:</h1>
         <List>{clickers}</List>
+        <Button component={Link} to='/app/add'>
+          Add new clicker
+        </Button>
       </>
     )
   }
