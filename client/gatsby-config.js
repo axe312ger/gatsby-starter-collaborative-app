@@ -10,7 +10,8 @@ const { palette } = pageContext.theme
 
 module.exports = {
   siteMetadata: {
-    title: `⏱ Clicker`
+    title: `⏱ Clicker`,
+    description: `Example progressive web app built with Gatsby`
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

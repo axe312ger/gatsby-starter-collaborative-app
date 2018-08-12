@@ -56,9 +56,23 @@ class Layout extends React.Component {
                 lang: 'en'
               }}
               title={data.site.siteMetadata.title}
+              link={[
+                {
+                  rel: 'apple-touch-icon',
+                  href: '/icons/icon-192x192.png'
+                }
+              ]}
               meta={[
-                { name: 'description', content: 'Sample' },
-                { name: 'keywords', content: 'sample, something' }
+                {
+                  name: 'description',
+                  content: data.site.siteMetadata.description
+                },
+                { name: 'apple-mobile-web-app-capable', content: 'yes' },
+                {
+                  name: 'apple-mobile-web-app-status-bar-style',
+                  content: 'black-translucent'
+                },
+                { name: 'format-detection', content: 'telephone=no' }
               ]}
             />
             <div className={classes.wrapper} wrapper='true'>
