@@ -10,7 +10,7 @@ const { palette } = pageContext.theme
 
 module.exports = {
   siteMetadata: {
-    title: `⏱ Clicker`,
+    title: `Clicker`,
     description: `Example progressive web app built with Gatsby`
   },
   plugins: [
@@ -32,8 +32,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `⏱ Clicker`,
-        short_name: `⏱`,
+        name: `Clicker - Gatsby Starter Collaborative App`,
+        short_name: `Clicker`,
         start_url: `/`,
         background_color: palette.background.default,
         theme_color: palette.primary.main,
