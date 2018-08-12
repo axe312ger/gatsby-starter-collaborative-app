@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently --kill-others 'npm:dev:db' 'npm:dev:server'",
     "dev:db": "mongod --config /usr/local/etc/mongod.conf",
-    "dev:server": "nodemon -x ts-node .",
+    "dev:server": "nodemon -x ts-node . -e ts",
     "postinstall": "npm run build",
     "build": "tsc --pretty",
     "start": "node dist/index.js",
