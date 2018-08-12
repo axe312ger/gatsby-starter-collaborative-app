@@ -38,7 +38,7 @@ module.exports = {
         background_color: palette.background.default,
         theme_color: palette.primary.main,
         display: `minimal-ui`,
-        icon: `src/images/gatsby-logo.svg`
+        icon: `src/images/emojione-stopwatch.png`
       }
     },
     `gatsby-plugin-offline`
