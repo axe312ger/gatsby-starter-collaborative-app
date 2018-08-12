@@ -13,6 +13,21 @@ import sharedbMongo from 'sharedb-mongo'
 import WebSocketJSONStream from 'websocket-json-stream'
 import WebSocket from 'ws'
 
+import { IShareDbDoc, IShareDbRequest } from './interfaces/sharedb'
+
+interface IToken {
+  sub: string
+}
+interface ISession {
+  jwt: string
+  token: IToken
+}
+
+interface IWsMessage {
+  type: string
+  data: any
+}
+
 dotenv.config({
   path: `.env.${process.env.NODE_ENV || 'development'}`
 })
@@ -29,7 +44,7 @@ shareDbAccess(shareDbBackend)
 
 shareDbBackend.allowCreate(
   'examples',
-  (docId: string, doc: ShareDbDoc, session: Session) => {
+  (docId: string, doc: IShareDbDoc, session: ISession) => {
     console.log('create example', docId, 'by user', session.token.sub)
     return verifyToken(session.jwt)
   }
@@ -37,7 +52,8 @@ shareDbBackend.allowCreate(
 
 shareDbBackend.allowRead(
   'examples',
-  async (docId: string, doc: ShareDbDoc, session: Session) => {
+  async (docId: string, doc: IShareDbDoc, session: ISession) => {
+    console.log('session:', JSON.stringify(session, null, 2))
     console.log('read example', docId, 'by user', session.token.sub)
     return verifyToken(session.jwt)
   }
@@ -47,10 +63,10 @@ shareDbBackend.allowUpdate(
   'examples',
   (
     docId: string,
-    oldDoc: ShareDbDoc,
-    newDoc: ShareDbDoc,
-    ops: ShareDbOp[],
-    session: Session
+    oldDoc: IShareDbDoc,
+    newDoc: IShareDbDoc,
+    ops: [],
+    session: ISession
   ) => {
     console.log('update example', docId, 'by user', session.token.sub)
     return verifyToken(session.jwt)
@@ -61,23 +77,39 @@ shareDbBackend.allowDelete(
   'examples',
   (
     docId: string,
-    oldDoc: ShareDbDoc,
-    newDoc: ShareDbDoc,
-    ops: ShareDbOp[],
-    session: Session
+    oldDoc: IShareDbDoc,
+    newDoc: IShareDbDoc,
+    ops: [],
+    session: ISession
   ) => {
     console.log('delete example', docId, 'by user', session.token.sub)
     return verifyToken(session.jwt)
   }
 )
 
-shareDbBackend.use('connect', (request: ShareDbRequest, next: () => void) => {
+shareDbBackend.use('connect', (request: IShareDbRequest, next: () => void) => {
   const { token, jwt } = request.req
   request.agent.connectSession = { token, jwt }
   console.log('ShareDB connection established with user', token.sub)
   next()
 })
 
+shareDbBackend.use('submit', (request: IShareDbRequest, next: () => void) => {
+  console.log('submit', { request })
+  next()
+})
+shareDbBackend.use('op', (request: IShareDbRequest, next: () => void) => {
+  console.log('op', { request })
+  next()
+})
+shareDbBackend.use('apply', (request: IShareDbRequest, next: () => void) => {
+  console.log('apply', { request })
+  next()
+})
+shareDbBackend.use('receive', (request: IShareDbRequest, next: () => void) => {
+  console.log('receive', { request })
+  next()
+})
 startServer()
 
 function startServer() {
@@ -102,15 +134,15 @@ function startServer() {
 
   // Connect any incoming WebSocket connection to ShareDB
   const wss = new WebSocket.Server({ server })
-  wss.on('connection', (ws, req: Request) => {
+  wss.on('connection', (ws, req) => {
     const stream = new WebSocketJSONStream(ws)
 
     console.log('new websocket connection')
 
     ws.on('message', async function incoming(raw: Buffer) {
-      const message: WsMessage = JSON.parse(raw.toString())
-
+      const message: IWsMessage = JSON.parse(raw.toString())
       const { type, data } = message
+
       if (type === 'auth') {
         const { jwt } = data
         console.log('login: verifying token')
