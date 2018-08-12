@@ -59,7 +59,7 @@ class Layout extends React.Component {
               link={[
                 {
                   rel: 'apple-touch-icon',
-                  href: '/icons/icon-192x192.png'
+                  href: '/apple-touch-icon.png'
                 }
               ]}
               meta={[
