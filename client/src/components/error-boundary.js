@@ -27,12 +27,15 @@ class ErrorBoundary extends React.Component {
     const { children } = this.props
     if (error) {
       return (
-        <Modal
-          title='Oh snap! Something went wrong 😱'
-          text={error.message}
-          buttonLabel='Reload and 🤞'
-          callback={() => location.reload()}
-        />
+        <>
+          {children}
+          <Modal
+            title='Oh snap! Something went wrong 😱'
+            text={error.message}
+            buttonLabel='Reload and 🤞'
+            callback={() => location.reload()}
+          />
+        </>
       )
     }
     return children
