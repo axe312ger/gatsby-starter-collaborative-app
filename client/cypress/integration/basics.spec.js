@@ -14,7 +14,32 @@ context('Basics', () => {
 
   describe('Header', () => {
     it('Renders dynamic login button', () => {
-      cy.get('header button').should('have.text', 'Login / Register')
+      cy.get('header button[aria-label=Login]').should(
+        'have.text',
+        'Login / Register'
+      )
+    })
+  })
+
+  describe('Menu', () => {
+    it('Opens menu through header', () => {
+      cy.get('nav').should('not.be.visible')
+      cy.get('header button[aria-label=Menu]').click({ force: true })
+      cy.get('nav').should('be.visible')
+    })
+    it('Closes menu through esc key', () => {
+      cy.get('nav').should('not.be.visible')
+      cy.get('header button[aria-label=Menu]').click({ force: true })
+      cy.get('nav').should('be.visible')
+      cy.get('body').type('{esc}')
+      cy.get('nav').should('not.be.visible')
+    })
+    it('Closes menu through click on background', () => {
+      cy.get('nav').should('not.be.visible')
+      cy.get('header button[aria-label=Menu]').click({ force: true })
+      cy.get('nav').should('be.visible')
+      cy.get('div[class^=MuiBackdrop]').click()
+      cy.get('nav').should('not.be.visible')
     })
   })
 })

@@ -116,11 +116,15 @@ class Header extends React.PureComponent {
               <SessionConsumer>
                 {({ jwt }) =>
                   jwt ? (
-                    <Button onClick={logout} color='inherit'>
+                    <Button
+                      onClick={logout}
+                      aria-label='Logout'
+                      color='inherit'
+                    >
                       Logout
                     </Button>
                   ) : (
-                    <Button onClick={login} color='inherit'>
+                    <Button onClick={login} aria-label='Login' color='inherit'>
                       Login / Register
                     </Button>
                   )
