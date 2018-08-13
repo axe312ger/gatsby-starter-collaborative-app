@@ -83,7 +83,10 @@ class Header extends React.PureComponent {
                     <ListItemIcon>
                       <AuthIcon />
                     </ListItemIcon>
-                    <ListItemText primary='Logout' />
+                    <ListItemText
+                      primary='Logout'
+                      onClick={this.toggleDrawer}
+                    />
                   </ListItem>
                 ) : (
                   <ListItem onClick={login}>
