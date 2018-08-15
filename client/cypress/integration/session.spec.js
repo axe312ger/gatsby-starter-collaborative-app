@@ -15,7 +15,7 @@ context('Session', () => {
 
   describe('Header login', () => {
     it('button redirects to Auth0', () => {
-      cy.get('header button').click()
+      cy.get('header button[aria-label=Login]').click()
       cy.location().should(loc => {
         expect(loc.pathname).to.eq('/login')
         expect(loc.host).to.eq('gatsby-starter-collaborative-app.eu.auth0.com')
