@@ -4,7 +4,11 @@ import Modal from '../components/modal'
 
 class ErrorBoundary extends React.Component {
   static propTypes = {
-    children: propTypes.node.isRequired
+    children: propTypes.node.isRequired,
+    title: propTypes.string
+  }
+  static defaultProps = {
+    title: 'Oh snap! Something went wrong 😱'
   }
   state = {
     error: null,
@@ -24,13 +28,13 @@ class ErrorBoundary extends React.Component {
   }
   render () {
     const { error } = this.state
-    const { children } = this.props
+    const { children, title } = this.props
     if (error) {
       return (
         <>
           {children}
           <Modal
-            title='Oh snap! Something went wrong 😱'
+            title={title}
             text={error.message}
             buttonLabel='Reload and 🤞'
             callback={() => location.reload()}
