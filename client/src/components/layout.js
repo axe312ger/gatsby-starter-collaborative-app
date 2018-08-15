@@ -10,24 +10,24 @@ import withRoot from '../utils/withRoot'
 import Header from './header'
 import { SessionProvider } from './session'
 
-const styles = {
+const styles = theme => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
     minHeight: '100vh'
   },
   content: {
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
     margin: '0 auto',
-    padding: '16px',
     maxWidth: '800px',
     width: '100%',
-    '@media (min-width: 800px)': {
-      padding: '10vh 24px'
+    [theme.breakpoints.up('sm')]: {
+      ...theme.mixins.gutters()
     }
   }
-}
+})
 
 class Layout extends React.Component {
   static propTypes = {

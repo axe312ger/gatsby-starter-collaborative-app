@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'gatsby'
 
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/ExposurePlus1'
@@ -88,9 +87,6 @@ class Clicker extends React.Component {
             onClick={this.increment}
           >
             <AddIcon />
-          </Button>
-          <Button component={Link} to='/app'>
-            All Clickers
           </Button>
         </div>
       </div>
