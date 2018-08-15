@@ -14,7 +14,7 @@ export default class App extends React.Component {
     return (
       <BackendConnection>
         {({ connection }) => (
-          <ErrorBoundary>
+          <ErrorBoundary title={'Something went wrong 🤕'}>
             <AppLayout>
               <Router basepath='/app'>
                 <Clicker path='/clickers/:docId' connection={connection} />
