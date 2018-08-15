@@ -2,7 +2,6 @@ import React from 'react'
 import propTypes from 'prop-types'
 import { Link } from 'gatsby'
 
-import Button from '@material-ui/core/Button'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -47,9 +46,6 @@ class ClickerList extends React.Component {
       <>
         <h1>Your Clickers:</h1>
         <List>{clickers}</List>
-        <Button component={Link} to='/app/add'>
-          Add new clicker
-        </Button>
       </>
     )
   }
