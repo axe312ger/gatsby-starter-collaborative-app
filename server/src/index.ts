@@ -13,15 +13,7 @@ import sharedbMongo from 'sharedb-mongo'
 import WebSocketJSONStream from 'websocket-json-stream'
 import WebSocket from 'ws'
 
-import { IShareDbDoc, IShareDbRequest } from './interfaces/sharedb'
-
-interface IToken {
-  sub: string
-}
-interface ISession {
-  jwt: string
-  token: IToken
-}
+import { IShareDbDoc, IShareDbRequest, ISession } from './interfaces/sharedb'
 
 interface IWsMessage {
   type: string
@@ -42,11 +34,31 @@ const db = sharedbMongo(process.env.MONGODB_URI)
 const shareDbBackend = new ShareDB({ db })
 shareDbAccess(shareDbBackend)
 
+interface IClicker {
+  name: string
+  slug: string
+  numClicks: number
+  ownerSub: string
+}
+
 shareDbBackend.allowCreate(
   'examples',
-  (docId: string, doc: IShareDbDoc, session: ISession) => {
-    console.log('create example', docId, 'by user', session.token.sub)
-    return verifyToken(session.jwt)
+  (docId: string, doc: IClicker, session: ISession) => {
+    console.log(
+      `Create clicker ${doc.name} (slug: ${doc.slug}, id: ${docId}) by ${
+        doc.ownerSub
+      }`
+    )
+    const { jwt } = session
+    const { sub } = session.token
+    const { ownerSub } = doc
+
+    // Ensure users can only create Clickers for their own
+    if (ownerSub !== sub) {
+      return false
+    }
+
+    return verifyToken(jwt)
   }
 )
 
@@ -95,21 +107,15 @@ shareDbBackend.use('connect', (request: IShareDbRequest, next: () => void) => {
 })
 
 shareDbBackend.use('submit', (request: IShareDbRequest, next: () => void) => {
-  console.log('submit', { request })
+  const { op } = request
+  if ('create' in op) {
+    // Ensure owner is current user
+    const { data } = request.op.create
+    data.ownerSub = request.agent.connectSession.token.sub
+  }
   next()
 })
-shareDbBackend.use('op', (request: IShareDbRequest, next: () => void) => {
-  console.log('op', { request })
-  next()
-})
-shareDbBackend.use('apply', (request: IShareDbRequest, next: () => void) => {
-  console.log('apply', { request })
-  next()
-})
-shareDbBackend.use('receive', (request: IShareDbRequest, next: () => void) => {
-  console.log('receive', { request })
-  next()
-})
+
 startServer()
 
 function startServer() {

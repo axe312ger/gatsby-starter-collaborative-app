@@ -23,7 +23,37 @@ interface IWsRequest {
   jwt: any
 }
 
+interface IShareDbOpM {
+  ts: number
+}
+
+interface IShareDbOpData {
+  type: string
+  data: any
+}
+
+interface IShareDbOp {
+  src: string
+  seq: number
+  v: number
+  create?: IShareDbOpData
+  m: IShareDbOpM
+}
+
+interface IToken {
+  sub: string
+}
+export interface ISession {
+  jwt: string
+  token: IToken
+}
+
+interface IShareDbAgent {
+  connectSession: ISession
+}
+
 export interface IShareDbRequest {
-  agent: any
+  agent: IShareDbAgent
   req: IWsRequest
+  op?: IShareDbOp
 }
