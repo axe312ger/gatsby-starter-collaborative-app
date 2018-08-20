@@ -4,16 +4,21 @@ import PropTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/ExposurePlus1'
 import { withStyles } from '@material-ui/core/styles'
-import CircularProgress from '@material-ui/core/CircularProgress'
 
-const styles = {
+import AppLayout from './app-layout'
+
+import ProgressIndicator from '../components/progress-indicator'
+
+// https://material-ui.com/customization/css-in-js/
+// https://material-ui.com/customization/default-theme/
+const styles = theme => ({
   buttons: {
     display: 'grid',
     gridGap: '24px',
     justifyContent: 'center',
     justifyItems: 'center'
   }
-}
+})
 
 class Clicker extends React.Component {
   static propTypes = {
@@ -69,7 +74,11 @@ class Clicker extends React.Component {
     const { doc } = this.state
 
     if (!doc.data) {
-      return <CircularProgress />
+      return (
+        <AppLayout>
+          <ProgressIndicator text='Loading Clicker...' />
+        </AppLayout>
+      )
     }
 
     const { name } = doc.data
@@ -89,7 +98,7 @@ class Clicker extends React.Component {
             <AddIcon />
           </Button>
         </div>
-      </div>
+      </AppLayout>
     )
   }
 }

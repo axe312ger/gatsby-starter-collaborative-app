@@ -16,6 +16,11 @@ const styles = theme => ({
       flexDirection: 'column',
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2
+    },
+    '& > * ': {
+      flex: 1,
+      flexDirection: 'column',
+      display: 'flex'
     }
   },
   mobileWrapper: {
@@ -27,8 +32,15 @@ const styles = theme => ({
       display: 'none'
     }
   },
+  contentWrapper: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column'
+  },
   content: {
     flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
     overflow: 'auto',
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
@@ -45,10 +57,10 @@ class AppLayout extends React.PureComponent {
     const { classes, children } = this.props
 
     const AppContent = (
-      <>
+      <div className={classes.contentWrapper}>
         <div className={classes.content}>{children}</div>
         <AppNavigation />
-      </>
+      </div>
     )
 
     return (

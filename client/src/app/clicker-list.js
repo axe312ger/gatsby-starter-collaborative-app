@@ -7,15 +7,22 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
-import TouchAppIcon from '@material-ui/icons/TouchApp'
+
+import ProgressIndicator from '../components/progress-indicator'
+import AppLayout from './app-layout'
 
 class ClickerList extends React.Component {
   static propTypes = {
     connection: propTypes.object.isRequired
   }
-  constructor (props) {
-    super(props)
-    this.state = { clickers: [] }
+  state = {
+    error: null,
+    clickers: null
+  }
+  componentDidUpdate () {
+    if (this.state.error) {
+      throw this.state.error
+    }
   }
   componentDidMount () {
     const { connection } = this.props
@@ -24,10 +31,18 @@ class ClickerList extends React.Component {
       $sort: { numClicks: -1 }
     })
     query.on('ready', () => this.setState({ clickers: query.results }))
-    query.on('error', err => alert(err.message))
+    query.on('error', error => this.setState({ error }))
   }
   render () {
-    const clickers = this.state.clickers.map(clickerDoc => {
+    const { clickers } = this.state
+    if (!clickers) {
+      return (
+        <AppLayout>
+          <ProgressIndicator text='Loading Clickers...' />
+        </AppLayout>
+      )
+    }
+    const Clickers = clickers.map(clickerDoc => {
       const { id, data } = clickerDoc
       const { name, numClicks } = data
       return (
@@ -43,10 +58,9 @@ class ClickerList extends React.Component {
       )
     })
     return (
-      <>
-        <h1>Your Clickers:</h1>
-        <List>{clickers}</List>
-      </>
+      <AppLayout>
+        <List>{Clickers}</List>
+      </AppLayout>
     )
   }
 }
