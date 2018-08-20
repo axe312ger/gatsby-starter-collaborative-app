@@ -3,7 +3,11 @@ import propTypes from 'prop-types'
 import { push } from 'gatsby-link'
 
 import { SessionProvider, SessionConsumer } from '../components/session'
-import { getAccessToken, setAccessToken } from '../utils/AuthService'
+import {
+  getAccessToken,
+  setAccessToken,
+  setIdToken
+} from '../utils/AuthService'
 
 class LoginCallbackHandler extends React.PureComponent {
   static propTypes = {
@@ -28,6 +32,8 @@ export default class LoginCallback extends React.PureComponent {
     }
 
     setAccessToken()
+    setIdToken()
+
     const jwt = getAccessToken()
 
     this.setState({

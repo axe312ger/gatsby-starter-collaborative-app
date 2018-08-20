@@ -13,11 +13,14 @@ import sharedbMongo from 'sharedb-mongo'
 import WebSocketJSONStream from 'websocket-json-stream'
 import WebSocket from 'ws'
 
-import { IShareDbDoc, IShareDbRequest, ISession } from './interfaces/sharedb'
+import { ISession, IShareDbRequest } from './interfaces/sharedb'
 
-interface IWsMessage {
-  type: string
-  data: any
+interface IClicker {
+  name: string
+  slug: string
+  numClicks: number
+  ownerSub: string
+  private: boolean
 }
 
 dotenv.config({
@@ -34,18 +37,11 @@ const db = sharedbMongo(process.env.MONGODB_URI)
 const shareDbBackend = new ShareDB({ db })
 shareDbAccess(shareDbBackend)
 
-interface IClicker {
-  name: string
-  slug: string
-  numClicks: number
-  ownerSub: string
-}
-
 shareDbBackend.allowCreate(
   'examples',
   (docId: string, doc: IClicker, session: ISession) => {
     console.log(
-      `Create clicker ${doc.name} (slug: ${doc.slug}, id: ${docId}) by ${
+      `Create Clicker ${doc.name} (slug: ${doc.slug}, id: ${docId}) by ${
         doc.ownerSub
       }`
     )
@@ -64,10 +60,12 @@ shareDbBackend.allowCreate(
 
 shareDbBackend.allowRead(
   'examples',
-  async (docId: string, doc: IShareDbDoc, session: ISession) => {
-    console.log('session:', JSON.stringify(session, null, 2))
-    console.log('read example', docId, 'by user', session.token.sub)
-    return verifyToken(session.jwt)
+  async (docId: string, doc: IClicker, session: ISession) => {
+    console.log('Read Clicker', docId, 'by user', session.token.sub)
+    if (doc.private && doc.ownerSub !== session.token.sub) {
+      return false
+    }
+    return true
   }
 )
 
@@ -75,13 +73,17 @@ shareDbBackend.allowUpdate(
   'examples',
   (
     docId: string,
-    oldDoc: IShareDbDoc,
-    newDoc: IShareDbDoc,
+    oldDoc: IClicker,
+    newDoc: IClicker,
     ops: [],
     session: ISession
   ) => {
-    console.log('update example', docId, 'by user', session.token.sub)
-    return verifyToken(session.jwt)
+    console.log('Update clicker', docId, 'by user', session.token.sub)
+    // Private Clickers can only be updated by the owner
+    if (oldDoc.private && oldDoc.ownerSub !== session.token.sub) {
+      return false
+    }
+    return true
   }
 )
 
@@ -89,12 +91,16 @@ shareDbBackend.allowDelete(
   'examples',
   (
     docId: string,
-    oldDoc: IShareDbDoc,
-    newDoc: IShareDbDoc,
+    oldDoc: IClicker,
+    newDoc: IClicker,
     ops: [],
     session: ISession
   ) => {
-    console.log('delete example', docId, 'by user', session.token.sub)
+    console.log('Delete Clicker', docId, 'by user', session.token.sub)
+    // Deletions should only be possible for the owner
+    if (oldDoc.ownerSub !== session.token.sub) {
+      return false
+    }
     return verifyToken(session.jwt)
   }
 )
@@ -146,7 +152,7 @@ function startServer() {
     console.log('new websocket connection')
 
     ws.on('message', async function incoming(raw: Buffer) {
-      const message: IWsMessage = JSON.parse(raw.toString())
+      const message = JSON.parse(raw.toString())
       const { type, data } = message
 
       if (type === 'auth') {

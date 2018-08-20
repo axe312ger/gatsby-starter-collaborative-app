@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/ExposurePlus1'
+import LockIcon from '@material-ui/icons/Lock'
+import GroupIcon from '@material-ui/icons/Group'
 import { withStyles } from '@material-ui/core/styles'
 
 import AppLayout from './app-layout'
@@ -12,11 +14,38 @@ import ProgressIndicator from '../components/progress-indicator'
 // https://material-ui.com/customization/css-in-js/
 // https://material-ui.com/customization/default-theme/
 const styles = theme => ({
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    marginBottom: theme.spacing.unit * 2,
+    '& > h1': {
+      marginBottom: 0
+    }
+  },
+  icon: {
+    width: '1.25em',
+    height: '1.25em',
+    padding: theme.spacing.unit,
+    margin: '0 0.3em 0 0',
+    color: theme.palette.background.paper,
+    background: theme.palette.grey.A400,
+    borderRadius: '100%'
+  },
+  subline: {
+    color: theme.palette.grey.A700,
+    fontSize: '0.8rem'
+  },
   buttons: {
     display: 'grid',
     gridGap: '24px',
     justifyContent: 'center',
     justifyItems: 'center'
+  },
+  times: {
+    margin: `${theme.spacing.unit * 4} 0`,
+    fontSize: '5rem',
+    fontFamily: 'sans-serif',
+    textAlign: 'center'
   }
 })
 
@@ -81,13 +110,24 @@ class Clicker extends React.Component {
       )
     }
 
-    const { name } = doc.data
+    const { name, private: prvt } = doc.data
     const times = this.state.value
 
     return (
-      <div>
-        <h1>{name}</h1>
-        <p>{`Clicked ${times} times.`}</p>
+      <AppLayout>
+        <div className={classes.header}>
+          {prvt ? (
+            <LockIcon className={classes.icon} />
+          ) : (
+            <GroupIcon className={classes.icon} />
+          )}
+          <h1>{name}</h1>
+        </div>
+
+        <div className={classes.subline}>
+          {prvt ? 'This is your private Clicker' : 'This is a public Clicker'}
+        </div>
+        <div className={classes.times}>{times}</div>
         <div className={classes.buttons}>
           <Button
             variant='fab'

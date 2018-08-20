@@ -11,7 +11,7 @@ const REDIRECT = `${typeof window !== 'undefined' &&
   window.location.protocol}//${typeof window !== 'undefined' &&
   window.location.host}/login-callback`
 
-const SCOPE = 'create:doc,read:doc'
+const SCOPE = 'openid profile email'
 const AUDIENCE = 'https://gatsby-starter-collaborative-app.eu.auth0.com/api/v2/'
 
 var auth = new auth0.WebAuth({
@@ -46,10 +46,13 @@ export function clearAccessToken () {
 }
 
 function getIdToken () {
+  if (typeof localStorage === 'undefined') {
+    return null
+  }
   return localStorage.getItem(ID_TOKEN_KEY)
 }
 
-function clearIdToken () {
+export function clearIdToken () {
   localStorage.removeItem(ID_TOKEN_KEY)
 }
 
@@ -91,4 +94,13 @@ function getTokenExpirationDate (encodedToken) {
 function isTokenExpired (token) {
   const expirationDate = getTokenExpirationDate(token)
   return expirationDate < new Date()
+}
+
+export function getUserSub () {
+  const idToken = getIdToken()
+  if (!idToken) {
+    return false
+  }
+  const payload = decode(idToken)
+  return payload.sub
 }

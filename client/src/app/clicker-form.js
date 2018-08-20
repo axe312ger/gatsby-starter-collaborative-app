@@ -14,15 +14,23 @@ import DialogActions from '@material-ui/core/DialogActions'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
+import FormControl from '@material-ui/core/FormControl'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
 import withMobileDialog from '@material-ui/core/withMobileDialog'
 
 import TextField from '../components/form/TextField'
+import Checkbox from '../components/form/Checkbox'
 
 const styles = {
   progress: {
     marginLeft: '0.5em'
   }
 }
+
+const validateName = value =>
+  value && value.length < 6 && 'Come on! You can do 6 characters 🙃'
 
 class ClickerForm extends React.PureComponent {
   static propTypes = {
@@ -46,6 +54,7 @@ class ClickerForm extends React.PureComponent {
     const doc = connection.get('examples', docId)
     try {
       await new Promise((resolve, reject) => {
+        // @todo does this need to be client side?
         // See if clicker already exists
         doc.fetch(err => {
           if (err) return reject(err)
@@ -105,6 +114,15 @@ class ClickerForm extends React.PureComponent {
       >
         <Form
           onSubmit={onSubmit}
+          initialValues={{ private: false }}
+          validate={data => {
+            const errors = {}
+            const nameResult = validateName(data.name)
+            if (nameResult) {
+              errors.name = nameResult
+            }
+            return errors
+          }}
           render={({ handleSubmit, pristine, invalid }) => {
             return (
               <form onSubmit={handleSubmit}>
@@ -127,12 +145,26 @@ class ClickerForm extends React.PureComponent {
                     margin='normal'
                     fullWidth
                     inputProps={{ maxLength: 25 }}
-                    validate={value =>
-                      value &&
-                      value.length < 6 &&
-                      'Come on! You can do 6 characters 🙃'
-                    }
+                    validate={validateName}
                   />
+                  <FormControl component='fieldset' margin='normal'>
+                    <FormGroup>
+                      <FormControlLabel
+                        control={
+                          <Field
+                            name='private'
+                            component={Checkbox}
+                            label='Private'
+                            type='checkbox'
+                          />
+                        }
+                        label='Private Clicker'
+                      />
+                    </FormGroup>
+                    <FormHelperText>
+                      Private Clickers can only be seen and clicked by yourself.
+                    </FormHelperText>
+                  </FormControl>
                 </DialogContent>
                 <DialogActions>
                   <Button component={Link} to='/app'>
