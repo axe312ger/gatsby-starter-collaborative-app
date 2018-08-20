@@ -5,41 +5,49 @@ import sharedb from 'sharedb/lib/client'
 
 import ErrorBoundary from './error-boundary'
 import ProgressIndicator from './progress-indicator'
-import { getAccessToken, clearAccessToken } from '../utils/AuthService'
+import {
+  getAccessToken,
+  clearAccessToken,
+  clearIdToken,
+  getUserSub
+} from '../utils/AuthService'
 
 export const SessionContext = React.createContext()
 
 let socket = null
 let connection = false
-let sessionContextData = {
-  jwt: null
-}
 
-export class SessionProvider extends React.Component {
+export class SessionProvider extends React.PureComponent {
   static propTypes = {
     children: propTypes.node.isRequired
   }
+
   constructor (props) {
     super(props)
 
-    const jwt = getAccessToken()
-    sessionContextData.jwt = jwt
-
     this.setJWT = this.setJWT.bind(this)
+
+    const jwt = getAccessToken()
+    const sub = getUserSub()
+
     this.state = {
-      jwt
+      jwt,
+      sub
     }
   }
-  setJWT (newToken) {
-    sessionContextData.jwt = newToken
-    this.setState(state => ({
-      jwt: newToken
-    }))
+  setJWT (jwt) {
+    const sub = getUserSub()
+    this.setState({
+      jwt,
+      sub
+    })
   }
   render () {
     const { children } = this.props
+    const { jwt, sub } = this.state
     const contextValue = {
-      jwt: this.state.jwt,
+      sub,
+      jwt,
       setJWT: this.setJWT
     }
 
@@ -156,6 +164,7 @@ class ShareDBAuth extends React.PureComponent {
     const { setJWT } = this.props
     if (this.state.error) {
       clearAccessToken()
+      clearIdToken()
       setJWT(null)
       throw this.state.error
     }

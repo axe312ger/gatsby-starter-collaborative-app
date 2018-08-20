@@ -7,13 +7,16 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import Divider from '@material-ui/core/Divider'
+import LockIcon from '@material-ui/icons/Lock'
+import GroupIcon from '@material-ui/icons/Group'
 
 import ProgressIndicator from '../components/progress-indicator'
 import AppLayout from './app-layout'
 
 class ClickerList extends React.Component {
   static propTypes = {
-    connection: propTypes.object.isRequired
+    connection: propTypes.object.isRequired,
+    session: propTypes.object.isRequired
   }
   state = {
     error: null,
@@ -25,10 +28,10 @@ class ClickerList extends React.Component {
     }
   }
   componentDidMount () {
-    const { connection } = this.props
+    const { connection, session } = this.props
     const query = connection.createFetchQuery('examples', {
-      // numClicks: 137 @todo scope by subscription
-      $sort: { numClicks: -1 }
+      $or: [{ private: false }, { ownerSub: session.sub }],
+      $sort: { private: 1, numClicks: -1 }
     })
     query.on('ready', () => this.setState({ clickers: query.results }))
     query.on('error', error => this.setState({ error }))
@@ -44,13 +47,11 @@ class ClickerList extends React.Component {
     }
     const Clickers = clickers.map(clickerDoc => {
       const { id, data } = clickerDoc
-      const { name, numClicks } = data
+      const { name, numClicks, private: prvt } = data
       return (
         <div key={clickerDoc.id}>
           <ListItem component={Link} to={`/app/clickers/${id}`}>
-            <ListItemIcon>
-              <TouchAppIcon />
-            </ListItemIcon>
+            <ListItemIcon>{prvt ? <LockIcon /> : <GroupIcon />}</ListItemIcon>
             <ListItemText>{`${name} with ${numClicks} clicks`}</ListItemText>
           </ListItem>
           <Divider />
