@@ -42,7 +42,7 @@ class AppNavigation extends React.PureComponent {
               showLabels
             >
               <BottomNavigationAction
-                label='App'
+                label='Clickers'
                 value={'app'}
                 icon={<ViewListIcon />}
               />
