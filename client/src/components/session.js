@@ -3,20 +3,11 @@ import propTypes from 'prop-types'
 import { push } from 'gatsby-link'
 import sharedb from 'sharedb/lib/client'
 
-import CircularProgress from '@material-ui/core/CircularProgress'
-import { withStyles } from '@material-ui/core/styles'
-
-import Modal from './modal'
+import ErrorBoundary from './error-boundary'
+import ProgressIndicator from './progress-indicator'
 import { getAccessToken, clearAccessToken } from '../utils/AuthService'
 
 export const SessionContext = React.createContext()
-
-const styles = {
-  progress: {
-    textAlign: 'center',
-    marginTop: '30vh'
-  }
-}
 
 let socket = null
 let connection = false
@@ -82,8 +73,7 @@ class AccessCheck extends React.PureComponent {
 
 class WebsocketConnection extends React.PureComponent {
   static propTypes = {
-    children: propTypes.func.isRequired,
-    classes: propTypes.object.isRequired
+    children: propTypes.func.isRequired
   }
   constructor (props) {
     super(props)
@@ -115,15 +105,9 @@ class WebsocketConnection extends React.PureComponent {
   }
 
   render () {
-    const { progress } = this.props.classes
     if (!this.state.connected) {
       if (this.state.connecting) {
-        return (
-          <div className={progress}>
-            <CircularProgress />
-            <p>Preparing web socket connection...</p>
-          </div>
-        )
+        return <ProgressIndicator text='Preparing web socket connection...' />
       }
       return 'Not connected to web socket connection'
     }
@@ -132,14 +116,11 @@ class WebsocketConnection extends React.PureComponent {
   }
 }
 
-const WebsocketConnectionWithStyles = withStyles(styles)(WebsocketConnection)
-
 class ShareDBAuth extends React.PureComponent {
   static propTypes = {
     children: propTypes.node.isRequired,
     jwt: propTypes.string.isRequired,
-    setJWT: propTypes.func.isRequired,
-    classes: propTypes.object.isRequired
+    setJWT: propTypes.func.isRequired
   }
   state = {
     error: null
@@ -180,58 +161,11 @@ class ShareDBAuth extends React.PureComponent {
     }
   }
   render () {
-    const { progress } = this.props.classes
     return this.state.authentificated ? (
       this.props.children
     ) : (
-      <>
-        <div className={progress}>
-          <CircularProgress />
-          <p>Preparing login...</p>
-        </div>
-      </>
+      <ProgressIndicator text='Logging you in...' />
     )
-  }
-}
-
-const ShareDBAuthWithStyles = withStyles(styles)(ShareDBAuth)
-
-class ErrorBoundary extends React.Component {
-  static propTypes = {
-    children: propTypes.node.isRequired
-  }
-  state = {
-    error: null,
-    info: null
-  }
-  componentDidCatch (error, info) {
-    this.setState({ error, info })
-  }
-  shouldComponentUpdate (newProps, newState) {
-    if (
-      newProps.children !== this.props.children ||
-      newState.error !== this.state.error
-    ) {
-      return true
-    }
-    return false
-  }
-  render () {
-    const { error } = this.state
-    const { children } = this.props
-    if (error) {
-      return (
-        <Modal
-          title='Oh snap! Login failed 😱'
-          text={`Something went wrong with your login, probably your session is just expired. We will try to log you in again. (${
-            error.message
-          })`}
-          buttonLabel='Login again'
-          callback={() => push('/login')}
-        />
-      )
-    }
-    return children
   }
 }
 
@@ -244,15 +178,18 @@ export class SecureSection extends React.PureComponent {
     return (
       <SessionConsumer>
         {session => (
-          <ErrorBoundary>
+          <ErrorBoundary
+            title='Oh snap! Login failed 😱'
+            text={
+              'Something went wrong with your login, probably your session is just expired. We will try to log you in again.'
+            }
+            buttonLabel='Login again'
+            callback={() => push('/login')}
+          >
             <AccessCheck jwt={session.jwt}>
-              <WebsocketConnectionWithStyles>
-                {() => (
-                  <ShareDBAuthWithStyles {...session}>
-                    {children}
-                  </ShareDBAuthWithStyles>
-                )}
-              </WebsocketConnectionWithStyles>
+              <WebsocketConnection>
+                {() => <ShareDBAuth {...session}>{children}</ShareDBAuth>}
+              </WebsocketConnection>
             </AccessCheck>
           </ErrorBoundary>
         )}

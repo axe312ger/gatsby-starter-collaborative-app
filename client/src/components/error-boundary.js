@@ -5,10 +5,13 @@ import Modal from '../components/modal'
 class ErrorBoundary extends React.Component {
   static propTypes = {
     children: propTypes.node.isRequired,
-    title: propTypes.string
+    title: propTypes.string,
+    text: propTypes.string,
+    callback: propTypes.func
   }
   static defaultProps = {
-    title: 'Oh snap! Something went wrong 😱'
+    title: 'Oh snap! Something went wrong 😱',
+    callback: () => location.reload()
   }
   state = {
     error: null,
@@ -28,18 +31,18 @@ class ErrorBoundary extends React.Component {
   }
   render () {
     const { error } = this.state
-    const { children, title } = this.props
+    const { children, title, text, callback } = this.props
+
     if (error) {
+      const message = text ? `${text} (${error.message})` : error.message
+
       return (
-        <>
-          {children}
-          <Modal
-            title={title}
-            text={error.message}
-            buttonLabel='Reload and 🤞'
-            callback={() => location.reload()}
-          />
-        </>
+        <Modal
+          title={title}
+          text={message}
+          buttonLabel='Reload and 🤞'
+          callback={callback}
+        />
       )
     }
     return children
