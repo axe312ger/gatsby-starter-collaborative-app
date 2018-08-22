@@ -1,6 +1,6 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { push } from 'gatsby-link'
+import { navigate } from 'gatsby'
 
 import { SessionProvider, SessionConsumer } from '../components/session'
 import {
@@ -17,7 +17,7 @@ class LoginCallbackHandler extends React.PureComponent {
   componentDidMount () {
     const { setJWT, jwt } = this.props
     setJWT(jwt)
-    push('/app')
+    navigate('/app')
   }
   render () {
     return null
@@ -28,7 +28,7 @@ export default class LoginCallback extends React.PureComponent {
   state = {}
   componentDidMount () {
     if (!/[#&]access_token=([^&]+)/.test(window.location.hash)) {
-      push('/')
+      navigate('/')
     }
 
     setAccessToken()
