@@ -20,8 +20,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import withMobileDialog from '@material-ui/core/withMobileDialog'
 
-import TextField from '../components/form/TextField'
-import Checkbox from '../components/form/Checkbox'
+import TextField from '../../components/form/TextField'
+import Checkbox from '../../components/form/Checkbox'
 
 const styles = {
   progress: {

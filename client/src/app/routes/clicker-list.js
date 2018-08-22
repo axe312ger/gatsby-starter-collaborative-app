@@ -10,8 +10,8 @@ import Divider from '@material-ui/core/Divider'
 import LockIcon from '@material-ui/icons/Lock'
 import GroupIcon from '@material-ui/icons/Group'
 
-import ProgressIndicator from '../components/progress-indicator'
-import AppLayout from './app-layout'
+import ProgressIndicator from '../../components/progress-indicator'
+import AppLayout from '../components/app-layout'
 
 class ClickerList extends React.Component {
   static propTypes = {
