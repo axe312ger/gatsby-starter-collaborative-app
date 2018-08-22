@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import ProgressIndicator from '../../components/progress-indicator'
 import AppLayout from '../components/app-layout'
+import FlipDisplay from '../components/flip-display'
 
 // https://material-ui.com/customization/css-in-js/
 // https://material-ui.com/customization/default-theme/
@@ -41,10 +42,9 @@ const styles = theme => ({
     justifyItems: 'center'
   },
   times: {
-    margin: `${theme.spacing.unit * 4} 0`,
-    fontSize: '5rem',
-    fontFamily: 'sans-serif',
-    textAlign: 'center'
+    display: 'flex',
+    justifyContent: 'center',
+    margin: `${theme.spacing.unit * 4}px 0`
   }
 })
 
@@ -126,7 +126,9 @@ class Clicker extends React.Component {
         <div className={classes.subline}>
           {prvt ? 'This is your private Clicker' : 'This is a public Clicker'}
         </div>
-        <div className={classes.times}>{times}</div>
+        <div className={classes.times}>
+          <FlipDisplay digit={times} />
+        </div>
         <div className={classes.buttons}>
           <Button
             variant='fab'
