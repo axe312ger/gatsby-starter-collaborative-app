@@ -13,26 +13,45 @@ import GroupIcon from '@material-ui/icons/Group'
 import ProgressIndicator from '../../components/progress-indicator'
 import AppLayout from '../components/app-layout'
 
-class ClickerList extends React.Component {
+class ClickerList extends React.PureComponent {
   static propTypes = {
     connection: propTypes.object.isRequired,
-    session: propTypes.object.isRequired
+    session: propTypes.object.isRequired,
+    showPrivate: propTypes.bool
+  }
+  static defaultProps = {
+    showPrivate: false
   }
   state = {
     error: null,
     clickers: null
   }
-  componentDidUpdate () {
+  componentDidMount () {
+    this.runQuery()
+  }
+  componentDidUpdate (prevProps) {
     if (this.state.error) {
       throw this.state.error
     }
+    if (this.props.showPrivate !== prevProps.showPrivate) {
+      this.runQuery()
+    }
   }
-  componentDidMount () {
-    const { connection, session } = this.props
-    const query = connection.createFetchQuery('examples', {
-      $or: [{ private: false }, { ownerSub: session.sub }],
+  runQuery () {
+    const { connection, session, showPrivate } = this.props
+    const queryParams = {
       $sort: { private: 1, numClicks: -1 }
-    })
+    }
+    if (showPrivate) {
+      queryParams.$or = [
+        { private: false },
+        showPrivate ? { ownerSub: session.sub } : undefined
+      ]
+    } else {
+      queryParams.private = false
+    }
+
+    const query = connection.createFetchQuery('examples', queryParams)
     query.on('ready', () => this.setState({ clickers: query.results }))
     query.on('error', error => this.setState({ error }))
   }
@@ -45,7 +64,7 @@ class ClickerList extends React.Component {
         </AppLayout>
       )
     }
-    const Clickers = clickers.map(clickerDoc => {
+    const Clickers = clickers.map((clickerDoc, index) => {
       const { id, data } = clickerDoc
       const { name, numClicks, private: prvt } = data
       return (
@@ -54,7 +73,7 @@ class ClickerList extends React.Component {
             <ListItemIcon>{prvt ? <LockIcon /> : <GroupIcon />}</ListItemIcon>
             <ListItemText>{`${name} with ${numClicks} clicks`}</ListItemText>
           </ListItem>
-          <Divider />
+          {index < clickers.length - 1 && <Divider />}
         </div>
       )
     })
