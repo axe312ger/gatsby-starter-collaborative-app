@@ -27,7 +27,6 @@ const styles = theme => ({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    height: console.log({ theme }) || '500px',
     [theme.breakpoints.up('sm')]: {
       display: 'none'
     }
