@@ -36,7 +36,11 @@ class ClickerForm extends React.PureComponent {
   static propTypes = {
     connection: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
-    fullScreen: PropTypes.bool.isRequired
+    fullScreen: PropTypes.bool.isRequired,
+    createPrivate: PropTypes.bool
+  }
+  static defaultProps = {
+    createPrivate: false
   }
   state = {
     busy: false, // block form while async clicker creation
@@ -89,7 +93,7 @@ class ClickerForm extends React.PureComponent {
     }
   }
   render () {
-    const { fullScreen, classes } = this.props
+    const { createPrivate, fullScreen, classes } = this.props
     const { busy, submitError } = this.state
 
     // Submit handler to handle clicker creation
@@ -114,7 +118,7 @@ class ClickerForm extends React.PureComponent {
       >
         <Form
           onSubmit={onSubmit}
-          initialValues={{ private: false }}
+          initialValues={{ private: createPrivate }}
           validate={data => {
             const errors = {}
             const nameResult = validateName(data.name)

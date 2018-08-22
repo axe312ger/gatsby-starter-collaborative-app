@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import { withStyles } from '@material-ui/core/styles'
 
 import AppNavigation from './app-navigation'
+import AppFloatingActionButtons from './app-floating-action-buttons'
 
 const styles = theme => ({
   desktopWrapper: {
@@ -31,15 +32,18 @@ const styles = theme => ({
       display: 'none'
     }
   },
-  contentWrapper: {
+  mainAreaWrapper: {
     flex: 1,
     display: 'flex',
     flexDirection: 'column'
   },
-  content: {
-    flex: 1,
+  mainArea: {
     display: 'flex',
     flexDirection: 'column',
+    flex: 1,
+    position: 'relative'
+  },
+  scrollWrapper: {
     overflow: 'auto',
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
@@ -55,18 +59,21 @@ class AppLayout extends React.PureComponent {
   render () {
     const { classes, children } = this.props
 
-    const AppContent = (
-      <div className={classes.contentWrapper}>
-        <div className={classes.content}>{children}</div>
+    const AppMainArea = (
+      <div className={classes.mainAreaWrapper}>
+        <div className={classes.mainArea}>
+          <div className={classes.scrollWrapper}>{children}</div>
+          <AppFloatingActionButtons />
+        </div>
         <AppNavigation />
       </div>
     )
 
     return (
       <>
-        <div className={classes.mobileWrapper}>{AppContent}</div>
+        <div className={classes.mobileWrapper}>{AppMainArea}</div>
         <div className={classes.desktopWrapper}>
-          <Paper>{AppContent}</Paper>
+          <Paper>{AppMainArea}</Paper>
         </div>
       </>
     )

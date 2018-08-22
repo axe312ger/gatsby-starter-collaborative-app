@@ -13,7 +13,7 @@ import GroupIcon from '@material-ui/icons/Group'
 import ProgressIndicator from '../../components/progress-indicator'
 import AppLayout from '../components/app-layout'
 
-class ClickerList extends React.PureComponent {
+export default class ClickerList extends React.PureComponent {
   static propTypes = {
     connection: propTypes.object.isRequired,
     session: propTypes.object.isRequired,
@@ -26,19 +26,11 @@ class ClickerList extends React.PureComponent {
     error: null,
     clickers: null
   }
-  componentDidMount () {
-    this.runQuery()
-  }
-  componentDidUpdate (prevProps) {
-    if (this.state.error) {
-      throw this.state.error
-    }
-    if (this.props.showPrivate !== prevProps.showPrivate) {
-      this.runQuery()
-    }
-  }
-  runQuery () {
-    const { connection, session, showPrivate } = this.props
+  constructor (props) {
+    super(props)
+
+    const { connection, session, showPrivate } = props
+
     const queryParams = {
       $sort: { private: 1, numClicks: -1 }
     }
@@ -54,6 +46,11 @@ class ClickerList extends React.PureComponent {
     const query = connection.createFetchQuery('examples', queryParams)
     query.on('ready', () => this.setState({ clickers: query.results }))
     query.on('error', error => this.setState({ error }))
+  }
+  componentDidUpdate (prevProps) {
+    if (this.state.error) {
+      throw this.state.error
+    }
   }
   render () {
     const { clickers } = this.state
@@ -84,5 +81,3 @@ class ClickerList extends React.PureComponent {
     )
   }
 }
-
-export default ClickerList
