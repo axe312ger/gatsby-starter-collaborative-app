@@ -1,5 +1,5 @@
 import decode from 'jwt-decode'
-import { push } from 'gatsby-link'
+import { navigate } from 'gatsby'
 import auth0 from 'auth0-js'
 
 const ID_TOKEN_KEY = 'id_token'
@@ -31,7 +31,7 @@ export function login () {
 export function logout () {
   clearIdToken()
   clearAccessToken()
-  push('/')
+  navigate('/')
 }
 
 export function getAccessToken () {

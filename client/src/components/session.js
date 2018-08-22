@@ -1,6 +1,6 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { push } from 'gatsby-link'
+import { navigate } from 'gatsby'
 import sharedb from 'sharedb/lib/client'
 
 import ErrorBoundary from './error-boundary'
@@ -193,7 +193,7 @@ export class SecureSection extends React.PureComponent {
               'Something went wrong with your login, probably your session is just expired. We will try to log you in again.'
             }
             buttonLabel='Login again'
-            callback={() => push('/login')}
+            callback={() => navigate('/login')}
           >
             <AccessCheck jwt={session.jwt}>
               <WebsocketConnection>

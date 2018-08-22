@@ -1,5 +1,4 @@
-import { graphql } from 'gatsby'
-import Link from 'gatsby-link'
+import { graphql, Link } from 'gatsby'
 import React from 'react'
 import propTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
