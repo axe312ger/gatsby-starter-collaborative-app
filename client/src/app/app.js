@@ -4,9 +4,9 @@ import { Router } from '@reach/router'
 import ErrorBoundary from '../components/error-boundary'
 import { SessionConsumer, BackendConnection } from '../components/session'
 
-import ClickerList from './clicker-list'
-import Clicker from './clicker'
-import ClickerForm from './clicker-form'
+import ClickerList from './routes/clicker-list'
+import Clicker from './routes/clicker'
+import ClickerForm from './routes/clicker-form'
 
 export default class App extends React.Component {
   render () {

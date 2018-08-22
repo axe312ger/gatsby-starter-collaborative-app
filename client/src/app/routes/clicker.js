@@ -7,9 +7,8 @@ import LockIcon from '@material-ui/icons/Lock'
 import GroupIcon from '@material-ui/icons/Group'
 import { withStyles } from '@material-ui/core/styles'
 
-import AppLayout from './app-layout'
-
-import ProgressIndicator from '../components/progress-indicator'
+import ProgressIndicator from '../../components/progress-indicator'
+import AppLayout from '../components/app-layout'
 
 // https://material-ui.com/customization/css-in-js/
 // https://material-ui.com/customization/default-theme/
