@@ -17,9 +17,15 @@ export default class App extends React.Component {
             {({ connection }) => (
               <ErrorBoundary title={'Something went wrong 🤕'}>
                 <Router basepath='/app' style={{ display: 'flex', flex: 1 }}>
-                  <Clicker path='/clickers/:docId' connection={connection} />
                   <ClickerList
                     path='/'
+                    connection={connection}
+                    session={session}
+                  />
+                  <Clicker path='/clickers/:docId' connection={connection} />
+                  <ClickerList
+                    path='/private'
+                    showPrivate
                     connection={connection}
                     session={session}
                   />

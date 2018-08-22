@@ -3,17 +3,17 @@ import { Location, navigate } from '@reach/router'
 
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
-import ViewListIcon from '@material-ui/icons/ViewList'
-import AddIcon from '@material-ui/icons/ExposurePlus1'
+import LockIcon from '@material-ui/icons/Lock'
+import GroupIcon from '@material-ui/icons/Group'
 
 const actionMap = {
-  app: {
+  all: {
     path: '/app',
-    regex: /^\/app/
+    regex: /^\/app\/?$/
   },
-  add: {
-    path: '/app/add',
-    regex: /\/add$/
+  private: {
+    path: '/app/private',
+    regex: /\/private$/
   }
 }
 
@@ -42,14 +42,14 @@ class AppNavigation extends React.PureComponent {
               showLabels
             >
               <BottomNavigationAction
-                label='Clickers'
-                value={'app'}
-                icon={<ViewListIcon />}
+                label='All Clickers'
+                value={'all'}
+                icon={<GroupIcon />}
               />
               <BottomNavigationAction
-                label='Add Clicker'
-                value={'add'}
-                icon={<AddIcon />}
+                label='Your Clickers'
+                value={'private'}
+                icon={<LockIcon />}
               />
             </BottomNavigation>
           )
