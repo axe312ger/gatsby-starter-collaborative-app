@@ -4,7 +4,8 @@ import { Router } from '@reach/router'
 import ErrorBoundary from '../components/error-boundary'
 import { SessionConsumer, BackendConnection } from '../components/session'
 
-import ClickerList from './routes/clicker-list'
+import ClickersPublic from './routes/clickers-public'
+import ClickersPrivate from './routes/clickers-private'
 import Clicker from './routes/clicker'
 import ClickerForm from './routes/clicker-form'
 
@@ -16,20 +17,26 @@ export default class App extends React.Component {
           <BackendConnection>
             {({ connection }) => (
               <ErrorBoundary title={'Something went wrong 🤕'}>
-                <Router basepath='/app' style={{ display: 'flex', flex: 1 }}>
-                  <ClickerList
-                    path='/'
+                <Router basepath='/app'>
+                  <ClickersPrivate
+                    path='/private/*'
+                    connection={connection}
+                    session={session}
+                  />
+                  <ClickersPublic
+                    path='/*'
                     connection={connection}
                     session={session}
                   />
                   <Clicker path='/clickers/:docId' connection={connection} />
-                  <ClickerList
-                    path='/private'
-                    showPrivate
-                    connection={connection}
-                    session={session}
-                  />
+                </Router>
+                <Router basepath='/app'>
                   <ClickerForm path='/add' connection={connection} />
+                  <ClickerForm
+                    path='/private/add'
+                    createPrivate
+                    connection={connection}
+                  />
                 </Router>
               </ErrorBoundary>
             )}

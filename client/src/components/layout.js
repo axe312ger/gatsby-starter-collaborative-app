@@ -14,7 +14,7 @@ const styles = theme => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh'
+    height: '100vh'
   },
   content: {
     flex: 1,
