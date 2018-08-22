@@ -1,0 +1,21 @@
+{
+  "name": "gatsby-starter-collaborative-app",
+  "version": "1.0.0",
+  "description": "> A Gatsby starter project which demonstrates how to write an app with Gatsby which supports authentication, session management, and collaborative editing",
+  "main": "index.js",
+  "scripts": {
+    "deploy:server:production": "now --public && now alias",
+    "cleanup:now": "now rm gatsby-starter-collaborative-app --safe"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/axe312ger/gatsby-starter-collaborative-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/axe312ger/gatsby-starter-collaborative-app/issues"
+  },
+  "homepage": "https://github.com/axe312ger/gatsby-starter-collaborative-app#readme"
+}

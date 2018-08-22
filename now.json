@@ -1,5 +1,6 @@
 {
   "alias": "gatsby-starter-collaborative-app",
+  "type": "docker",
   "build": {
     "env": {
       "NODE_ENV": "production"
