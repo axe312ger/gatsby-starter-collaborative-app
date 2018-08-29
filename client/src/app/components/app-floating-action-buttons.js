@@ -21,8 +21,7 @@ const styles = theme => ({
 class FloatingActionButtons extends React.Component {
   static propTypes = {
     classes: propTypes.object.isRequired,
-    theme: propTypes.object.isRequired,
-    location: propTypes.object.isRequired
+    theme: propTypes.object.isRequired
   }
   state = {
     activeFab: null

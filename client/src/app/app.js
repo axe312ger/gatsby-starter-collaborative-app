@@ -9,7 +9,7 @@ import ClickersPrivate from './routes/clickers-private'
 import Clicker from './routes/clicker'
 import ClickerForm from './routes/clicker-form'
 
-export default class App extends React.Component {
+export default class App extends React.PureComponent {
   render () {
     return (
       <SessionConsumer>
