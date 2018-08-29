@@ -43,6 +43,7 @@ module.exports = {
         icon: `src/images/emojione-stopwatch.png`
       }
     },
-    `gatsby-plugin-offline`
+    `gatsby-plugin-offline`,
+    `gatsby-plugin-webpack-size`
   ]
 }
