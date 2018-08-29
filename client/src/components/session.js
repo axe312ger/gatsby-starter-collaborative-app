@@ -22,18 +22,20 @@ export class SessionProvider extends React.PureComponent {
     children: propTypes.node.isRequired
   }
 
+  state = {
+    jwt: null,
+    sub: null,
+    drawerOpen: false
+  }
+
   constructor (props) {
     super(props)
 
     this.setJWT = this.setJWT.bind(this)
+    this.toggleDrawer = this.toggleDrawer.bind(this)
 
-    const jwt = getAccessToken()
-    const sub = getUserSub()
-
-    this.state = {
-      jwt,
-      sub
-    }
+    this.state.jwt = getAccessToken()
+    this.state.sub = getUserSub()
   }
   setJWT (jwt) {
     const sub = getUserSub()
@@ -42,13 +44,17 @@ export class SessionProvider extends React.PureComponent {
       sub
     })
   }
+  toggleDrawer () {
+    this.setState(state => ({
+      drawerOpen: !state.drawerOpen
+    }))
+  }
   render () {
     const { children } = this.props
-    const { jwt, sub } = this.state
     const contextValue = {
-      sub,
-      jwt,
-      setJWT: this.setJWT
+      ...this.state,
+      setJWT: this.setJWT,
+      toggleDrawer: this.toggleDrawer
     }
 
     return (

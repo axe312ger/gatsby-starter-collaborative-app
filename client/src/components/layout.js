@@ -7,24 +7,24 @@ import { withStyles } from '@material-ui/core/styles'
 
 import withRoot from '../utils/withRoot'
 
+import Drawer from './drawer'
 import Header from './header'
 import { SessionProvider } from './session'
 
 const styles = theme => ({
   wrapper: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: 'grid',
+    gridTemplateRows: 'auto 1fr',
+    gridTemplateColumns: '100%',
     height: '100vh'
   },
   content: {
-    flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
     margin: '0 auto',
     maxWidth: '800px',
     width: '100%',
     [theme.breakpoints.up('sm')]: {
-      ...theme.mixins.gutters()
+      ...theme.mixins.gutters(),
+      paddingBottom: theme.spacing.unit * 2
     }
   }
 })
@@ -81,6 +81,7 @@ class Layout extends React.Component {
                 {children}
               </main>
             </div>
+            <Drawer />
           </SessionProvider>
         )}
       />
