@@ -30,8 +30,8 @@ dotenv.config({
 const jwtVerify = util.promisify(verify)
 
 const USES_SSL = process.env.SSL_KEY && process.env.SSL_CERT
-const SSL_KEY = process.env.SSL_KEY || '' // @todo remove hacky typecasting to make typescript happy
-const SSL_CERT = process.env.SSL_CERT || '' // @todo remove hacky typecasting to make typescript happy
+const SSL_KEY = process.env.SSL_KEY
+const SSL_CERT = process.env.SSL_CERT
 
 const db = sharedbMongo(process.env.MONGODB_URI)
 const shareDbBackend = new ShareDB({ db })
