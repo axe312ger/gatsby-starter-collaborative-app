@@ -13,7 +13,7 @@ export default class App extends React.PureComponent {
   render () {
     return (
       <SessionConsumer>
-        {session => (
+        {(session) => (
           <BackendConnection>
             {({ connection }) => (
               <ErrorBoundary title={'Something went wrong 🤕'}>

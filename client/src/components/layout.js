@@ -11,7 +11,7 @@ import Drawer from './drawer'
 import Header from './header'
 import { SessionProvider } from './session'
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     display: 'grid',
     gridTemplateRows: 'auto 1fr',
@@ -49,7 +49,7 @@ class Layout extends React.Component {
             }
           }
         `}
-        render={data => (
+        render={(data) => (
           <SessionProvider>
             <Helmet
               htmlAttributes={{

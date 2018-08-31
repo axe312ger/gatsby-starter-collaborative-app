@@ -45,7 +45,7 @@ export default class ClickerList extends React.PureComponent {
 
     const query = connection.createFetchQuery('examples', queryParams)
     query.on('ready', () => this.setState({ clickers: query.results }))
-    query.on('error', error => this.setState({ error }))
+    query.on('error', (error) => this.setState({ error }))
   }
   componentDidUpdate (prevProps) {
     if (this.state.error) {

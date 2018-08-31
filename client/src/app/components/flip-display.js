@@ -38,7 +38,7 @@ export class FlipDisplay extends React.Component {
     return nextProps.digit !== this.props.digit
   }
   shuffle () {
-    this.setState(state => ({
+    this.setState((state) => ({
       shuffle: !state.shuffle
     }))
   }
@@ -98,7 +98,7 @@ export class FlipDisplay extends React.Component {
   }
 }
 
-const styles = theme => ({
+const styles = (theme) => ({
   flipDisplay: {
     display: 'block',
     position: 'relative',
