@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles'
 import AppNavigation from './app-navigation'
 import AppFloatingActionButtons from './app-floating-action-buttons'
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     height: 'calc(100vh - 56px)',
     display: 'grid',

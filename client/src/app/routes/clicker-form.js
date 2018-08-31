@@ -29,7 +29,7 @@ const styles = {
   }
 }
 
-const validateName = value =>
+const validateName = (value) =>
   value && value.length < 6 && 'Come on! You can do 6 characters 🙃'
 
 class ClickerForm extends React.PureComponent {
@@ -60,10 +60,10 @@ class ClickerForm extends React.PureComponent {
       await new Promise((resolve, reject) => {
         // @todo does this need to be client side?
         // See if clicker already exists
-        doc.fetch(err => {
+        doc.fetch((err) => {
           if (err) return reject(err)
           // Create clicker
-          doc.create({ ...data, slug, numClicks: 0 }, err => {
+          doc.create({ ...data, slug, numClicks: 0 }, (err) => {
             if (err) return reject(err)
             resolve()
           })
@@ -97,7 +97,7 @@ class ClickerForm extends React.PureComponent {
     const { busy, submitError } = this.state
 
     // Submit handler to handle clicker creation
-    const onSubmit = async values => {
+    const onSubmit = async (values) => {
       this.setState({ busy: true, submitError: null })
       try {
         const clickerDoc = await this.createClicker(values)
@@ -119,7 +119,7 @@ class ClickerForm extends React.PureComponent {
         <Form
           onSubmit={onSubmit}
           initialValues={{ private: createPrivate }}
-          validate={data => {
+          validate={(data) => {
             const errors = {}
             const nameResult = validateName(data.name)
             if (nameResult) {

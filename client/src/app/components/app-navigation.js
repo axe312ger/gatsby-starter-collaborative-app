@@ -28,7 +28,7 @@ class AppNavigation extends React.PureComponent {
         {({ location }) => {
           // determine active navigation action based on actionMap
           let value
-          Object.keys(actionMap).forEach(actionId => {
+          Object.keys(actionMap).forEach((actionId) => {
             const action = actionMap[actionId]
             if (action.regex.test(location.pathname)) {
               value = actionId

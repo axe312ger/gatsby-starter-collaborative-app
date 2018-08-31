@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/Add'
 import EditIcon from '@material-ui/icons/Edit'
 
-const styles = theme => ({
+const styles = (theme) => ({
   fab: {
     position: 'absolute',
     bottom: theme.spacing.unit * 4,

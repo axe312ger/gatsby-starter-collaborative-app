@@ -13,7 +13,7 @@ import FlipDisplay from '../components/flip-display'
 
 // https://material-ui.com/customization/css-in-js/
 // https://material-ui.com/customization/default-theme/
-const styles = theme => ({
+const styles = (theme) => ({
   header: {
     display: 'flex',
     alignItems: 'center',
@@ -69,7 +69,7 @@ class Clicker extends React.Component {
 
     doc.on('op', () => this.dataUpdated())
 
-    doc.fetch(err => {
+    doc.fetch((err) => {
       if (err) {
         alert(err.message)
         return

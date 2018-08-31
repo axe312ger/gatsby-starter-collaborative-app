@@ -7,7 +7,7 @@ import { withStyles } from '@material-ui/core/styles'
 
 import Layout from '../components/layout'
 
-const styles = theme => ({
+const styles = (theme) => ({
   wrapper: {
     ...theme.mixins.gutters(),
     padding: `${theme.spacing.unit * 2}px 0`

@@ -45,7 +45,7 @@ export class SessionProvider extends React.PureComponent {
     })
   }
   toggleDrawer () {
-    this.setState(state => ({
+    this.setState((state) => ({
       drawerOpen: !state.drawerOpen
     }))
   }
@@ -150,7 +150,7 @@ class ShareDBAuth extends React.PureComponent {
       })
     )
 
-    socket.onmessage = message => {
+    socket.onmessage = (message) => {
       const data = JSON.parse(message.data)
       if (data.type === 'auth_success') {
         connection = new sharedb.Connection(socket)
@@ -192,7 +192,7 @@ export class SecureSection extends React.PureComponent {
     const { children } = this.props
     return (
       <SessionConsumer>
-        {session => (
+        {(session) => (
           <ErrorBoundary
             title='Oh snap! Login failed 😱'
             text={
