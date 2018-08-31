@@ -19,9 +19,9 @@ const USES_SSL = process.env.SSL_KEY && process.env.SSL_CERT
 const SSL_KEY = process.env.SSL_KEY
 const SSL_CERT = process.env.SSL_CERT
 
-const shareDbBackend = setupShareDB()
-
 export default function startServer() {
+  const shareDbBackend = setupShareDB()
+
   // Create a web server to serve files and listen to WebSocket connections
   const app = express()
 
@@ -90,9 +90,11 @@ export default function startServer() {
 
   // Return async function to gracefully stop the server
   return async () => {
-    console.log('Stopping server...')
+    console.log('Closing ShareDB Backend...')
     await util.promisify(shareDbBackend.close).bind(shareDbBackend)()
+    console.log('Closing Websocket Connection...')
     await util.promisify(wss.close).bind(wss)()
+    console.log('Closing Express Server...')
     await util.promisify(server.close).bind(server)()
     console.log('Server stopped...')
   }
