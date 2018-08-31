@@ -15,4 +15,5 @@ jobs:
     - stage: server
       before_install: cd server
       script: npm run lint
-      script: npm run test
+      script: npm run test -- --collectCoverage
+      script: codecov
