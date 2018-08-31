@@ -5,6 +5,7 @@
   "version": "1.0.0",
   "author": "Benedikt Rötsch <info@benedikt-roetsch.de>",
   "license": "MIT",
+  "main": "src/index.ts",
   "scripts": {
     "precommit": "lint-staged",
     "dev": "concurrently --kill-others 'npm:dev:db' 'npm:dev:server'",
