@@ -1,6 +1,12 @@
-# Gatsby Starter Collaborative App Server
+# Clickers Server
 
-Server for ...
+> Server for the Gatsby Starter Collaborative App boilerplate
+
+This is pretty much **WIP** but does what it should:
+
+* Checks auth before user gets access to ShareDB
+* Checks read permissions on private Clickers
+* Is able to create new Clickers
 
 ## prerequisits
 
