@@ -15,8 +15,10 @@
     "lint": "eslint src",
     "test": "better-npm-run test",
     "test:dev": "better-npm-run test:dev",
+    "test:ci": "better-npm-run test:ci",
     "test:cypress": "cypress run",
-    "test:cypress:dev": "cypress open"
+    "test:cypress:dev": "cypress open",
+    "test:cypress:ci": "cypress run --config video=true"
   },
   "betterScripts": {
     "test": {
@@ -29,6 +31,12 @@
       "command": "start-server-and-test develop $CYPRESS_baseUrl test:cypress:dev",
       "env": {
         "CYPRESS_baseUrl": "http://localhost:8000"
+      }
+    },
+    "test:ci": {
+      "command": "start-server-and-test production $CYPRESS_baseUrl test:cypress:ci",
+      "env": {
+        "CYPRESS_baseUrl": "http://localhost:9000"
       }
     }
   },

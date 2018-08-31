@@ -1,1 +1,8 @@
-{ "chromeWebSecurity": false }
+{
+  "chromeWebSecurity": false,
+  "video": false,
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "../test-reports/cypress/client-e2e-test-output.xml"
+  }
+}

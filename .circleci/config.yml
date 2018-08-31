@@ -1,0 +1,94 @@
+version: 2.0
+jobs:
+  client-lint:
+    docker:
+      - image: cypress/base:10
+    working_directory: ~/project/client
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          keys:
+            - v1-client-lint-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - run: npx cypress verify # this ensures that the Cypress verified status is cached too
+      - save_cache:
+          key: v1-client-lint-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/project/client/node_modules
+            - ~/.npm
+      - run: npm run lint
+  client-e2e:
+    # https://github.com/cypress-io/cypress-example-docker-circle/blob/master/circle.yml
+    working_directory: ~/app/client
+    docker:
+      - image: cypress/base:10
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    steps:
+      - checkout:
+          path: ~/app
+      - restore_cache:
+          keys:
+            - v1-client-e2e-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - run: npx cypress verify # this ensures that the Cypress verified status is cached too
+      - save_cache:
+          key: v1-client-e2e-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/project/client/node_modules
+            - ~/.npm
+            - ~/.cache
+      - run: npm run test:ci
+      - store_test_results:
+          path: ~/project/test-reports
+      - store_artifacts:
+          path: cypress/videos
+      - store_artifacts:
+          path: cypress/screenshots
+  server-lint:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/project/server
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          keys:
+            - v1-server-lint-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - save_cache:
+          key: v1-server-lint-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/project/server/node_modules
+            - ~/.npm
+      - run: npm run lint
+  server-unit:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/project/server
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          keys:
+            - v1-server-unit-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+      - run: npm ci
+      - save_cache:
+          key: v1-server-unit-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/project/server/node_modules
+            - ~/.npm
+      - run: npm test -- --ci --collectCoverage
+      - run: npx codecov -p ".."
+      - store_test_results:
+          path: ~/project/test-reports
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - client-lint
+      - client-e2e
+      - server-lint
+      - server-unit
