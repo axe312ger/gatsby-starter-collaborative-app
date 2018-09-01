@@ -3,8 +3,8 @@ import propTypes from 'prop-types'
 
 import { withStyles } from '@material-ui/core/styles'
 
-import AppNavigation from './app-navigation'
-import AppFloatingActionButtons from './app-floating-action-buttons'
+import AppNavigation from './Navigation'
+import AppFloatingActionButtons from './FloatingActionButtons'
 
 const styles = (theme) => ({
   wrapper: {

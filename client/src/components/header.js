@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import { Link } from 'gatsby'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -9,7 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 
-import { login, logout } from '../utils/AuthService'
+import { login, logout } from '../utils/auth-service'
 
 import { SessionConsumer } from './session'
 
@@ -26,8 +26,8 @@ const styles = {
 
 class Header extends React.PureComponent {
   static propTypes = {
-    siteTitle: PropTypes.string.isRequired,
-    classes: PropTypes.object.isRequired
+    siteTitle: propTypes.string.isRequired,
+    classes: propTypes.object.isRequired
   }
 
   render () {

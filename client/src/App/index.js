@@ -1,13 +1,13 @@
 import React from 'react'
 import { Router } from '@reach/router'
 
-import ErrorBoundary from '../components/error-boundary'
+import ErrorBoundary from '../components/ErrorBoundary'
 import { SessionConsumer, BackendConnection } from '../components/session'
 
-import ClickersPublic from './routes/clickers-public'
-import ClickersPrivate from './routes/clickers-private'
-import Clicker from './routes/clicker'
-import ClickerForm from './routes/clicker-form'
+import ClickersPublic from './routes/ClickersPublic'
+import ClickersPrivate from './routes/ClickersPrivate'
+import Clicker from './routes/Clicker'
+import ClickerForm from './routes/ClickerForm'
 
 export default class App extends React.PureComponent {
   render () {

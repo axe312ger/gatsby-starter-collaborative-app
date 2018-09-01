@@ -10,7 +10,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import ViewListIcon from '@material-ui/icons/ViewList'
 import AuthIcon from '@material-ui/icons/PowerSettingsNew'
 
-import { login, logout } from '../utils/AuthService'
+import { login, logout } from '../utils/auth-service'
 
 import { SessionConsumer } from './session'
 

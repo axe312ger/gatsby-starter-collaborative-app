@@ -3,14 +3,14 @@ import propTypes from 'prop-types'
 import { navigate } from 'gatsby'
 import sharedb from 'sharedb/lib/client'
 
-import ErrorBoundary from './error-boundary'
-import ProgressIndicator from './progress-indicator'
+import ErrorBoundary from './ErrorBoundary'
+import ProgressIndicator from './ProgressIndicator'
 import {
   getAccessToken,
   clearAccessToken,
   clearIdToken,
   getUserSub
-} from '../utils/AuthService'
+} from '../utils/auth-service'
 
 export const SessionContext = React.createContext()
 

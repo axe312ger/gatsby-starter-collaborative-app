@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 
 import Button from '@material-ui/core/Button'
 import AddIcon from '@material-ui/icons/ExposurePlus1'
@@ -7,9 +7,9 @@ import LockIcon from '@material-ui/icons/Lock'
 import GroupIcon from '@material-ui/icons/Group'
 import { withStyles } from '@material-ui/core/styles'
 
-import ProgressIndicator from '../../components/progress-indicator'
-import AppLayout from '../components/app-layout'
-import FlipDisplay from '../components/flip-display'
+import ProgressIndicator from '../../components/ProgressIndicator'
+import AppLayout from '../components/Layout'
+import FlipDisplay from '../components/FlipDisplay'
 
 // https://material-ui.com/customization/css-in-js/
 // https://material-ui.com/customization/default-theme/
@@ -50,9 +50,9 @@ const styles = (theme) => ({
 
 class Clicker extends React.Component {
   static propTypes = {
-    connection: PropTypes.object.isRequired,
-    docId: PropTypes.string.isRequired,
-    classes: PropTypes.object.isRequired
+    connection: propTypes.object.isRequired,
+    docId: propTypes.string.isRequired,
+    classes: propTypes.object.isRequired
   }
   state = {
     doc: null,

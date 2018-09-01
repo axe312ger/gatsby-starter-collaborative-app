@@ -10,8 +10,8 @@ import Divider from '@material-ui/core/Divider'
 import LockIcon from '@material-ui/icons/Lock'
 import GroupIcon from '@material-ui/icons/Group'
 
-import ProgressIndicator from '../../components/progress-indicator'
-import AppLayout from '../components/app-layout'
+import ProgressIndicator from '../../components/ProgressIndicator'
+import Layout from './Layout'
 
 export default class ClickerList extends React.PureComponent {
   static propTypes = {
@@ -56,9 +56,9 @@ export default class ClickerList extends React.PureComponent {
     const { clickers } = this.state
     if (!clickers) {
       return (
-        <AppLayout>
+        <Layout>
           <ProgressIndicator text='Loading Clickers...' />
-        </AppLayout>
+        </Layout>
       )
     }
     const Clickers = clickers.map((clickerDoc, index) => {
@@ -75,9 +75,9 @@ export default class ClickerList extends React.PureComponent {
       )
     })
     return (
-      <AppLayout>
+      <Layout>
         <List>{Clickers}</List>
-      </AppLayout>
+      </Layout>
     )
   }
 }

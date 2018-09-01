@@ -1,6 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import Modal from '../components/modal'
+
+import Modal from './Modal'
 
 class ErrorBoundary extends React.Component {
   static propTypes = {
