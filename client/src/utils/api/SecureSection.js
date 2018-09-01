@@ -3,69 +3,13 @@ import propTypes from 'prop-types'
 import { navigate } from 'gatsby'
 import sharedb from 'sharedb/lib/client'
 
-import ErrorBoundary from './ErrorBoundary'
-import ProgressIndicator from './ProgressIndicator'
-import {
-  getAccessToken,
-  clearAccessToken,
-  clearIdToken,
-  getUserSub
-} from '../utils/auth-service'
+import ErrorBoundary from '../../components/ErrorBoundary'
+import ProgressIndicator from '../../components/ProgressIndicator'
+import { clearAccessToken, clearIdToken } from './auth-service'
 
-export const SessionContext = React.createContext()
+import { SessionConsumer } from './session'
 
 let socket = null
-let connection = false
-
-export class SessionProvider extends React.PureComponent {
-  static propTypes = {
-    children: propTypes.node.isRequired
-  }
-
-  state = {
-    jwt: null,
-    sub: null,
-    drawerOpen: false
-  }
-
-  constructor (props) {
-    super(props)
-
-    this.setJWT = this.setJWT.bind(this)
-    this.toggleDrawer = this.toggleDrawer.bind(this)
-
-    this.state.jwt = getAccessToken()
-    this.state.sub = getUserSub()
-  }
-  setJWT (jwt) {
-    const sub = getUserSub()
-    this.setState({
-      jwt,
-      sub
-    })
-  }
-  toggleDrawer () {
-    this.setState((state) => ({
-      drawerOpen: !state.drawerOpen
-    }))
-  }
-  render () {
-    const { children } = this.props
-    const contextValue = {
-      ...this.state,
-      setJWT: this.setJWT,
-      toggleDrawer: this.toggleDrawer
-    }
-
-    return (
-      <SessionContext.Provider value={contextValue}>
-        {children}
-      </SessionContext.Provider>
-    )
-  }
-}
-
-export const SessionConsumer = SessionContext.Consumer
 
 class AccessCheck extends React.PureComponent {
   static propTypes = {
@@ -81,13 +25,14 @@ class AccessCheck extends React.PureComponent {
     }
   }
   render () {
-    return this.props.jwt ? this.props.children : null
+    const { jwt, children } = this.props
+    return jwt ? children : null
   }
 }
 
 class WebsocketConnection extends React.PureComponent {
   static propTypes = {
-    children: propTypes.func.isRequired
+    children: propTypes.node.isRequired
   }
   constructor (props) {
     super(props)
@@ -111,7 +56,7 @@ class WebsocketConnection extends React.PureComponent {
     this.setState({ connecting: true })
 
     socket.onopen = () => {
-      this.setState({ connecting: false, connected: true, socket, connection })
+      this.setState({ connecting: false, connected: true, socket })
     }
     socket.onclose = () => {
       this.setState({ connected: false })
@@ -119,25 +64,28 @@ class WebsocketConnection extends React.PureComponent {
   }
 
   render () {
-    if (!this.state.connected) {
-      if (this.state.connecting) {
+    const { children } = this.props
+    const { connected, connecting } = this.state
+    if (!connected) {
+      if (connecting) {
         return <ProgressIndicator text='Preparing web socket connection...' />
       }
       return 'Not connected to web socket connection'
     }
 
-    return this.props.children(this.state)
+    return children
   }
 }
 
 class ShareDBAuth extends React.PureComponent {
   static propTypes = {
-    children: propTypes.node.isRequired,
+    children: propTypes.func.isRequired,
     jwt: propTypes.string.isRequired,
     setJWT: propTypes.func.isRequired
   }
   state = {
-    error: null
+    error: null,
+    connection: null
   }
   constructor (props) {
     super(props)
@@ -153,17 +101,13 @@ class ShareDBAuth extends React.PureComponent {
     socket.onmessage = (message) => {
       const data = JSON.parse(message.data)
       if (data.type === 'auth_success') {
-        connection = new sharedb.Connection(socket)
-        this.setState({ authentificated: true })
+        const connection = new sharedb.Connection(socket)
+        this.setState({ connection })
         return
       }
       if (data.type === 'auth_error') {
-        this.setState({ error: new Error(data.name) })
+        this.setState({ error: new Error(data.name), connection: null })
       }
-    }
-
-    this.state = {
-      authentificated: false
     }
   }
   componentDidUpdate () {
@@ -176,17 +120,19 @@ class ShareDBAuth extends React.PureComponent {
     }
   }
   render () {
-    return this.state.authentificated ? (
-      this.props.children
+    const { connection } = this.state
+    const { children } = this.props
+    return connection ? (
+      children({ connection })
     ) : (
       <ProgressIndicator text='Logging you in...' />
     )
   }
 }
 
-export class SecureSection extends React.PureComponent {
+export default class SecureSection extends React.PureComponent {
   static propTypes = {
-    children: propTypes.node.isRequired
+    children: propTypes.func.isRequired
   }
   render () {
     const { children } = this.props
@@ -203,22 +149,14 @@ export class SecureSection extends React.PureComponent {
           >
             <AccessCheck jwt={session.jwt}>
               <WebsocketConnection>
-                {() => <ShareDBAuth {...session}>{children}</ShareDBAuth>}
+                <ShareDBAuth {...session}>
+                  {({ connection }) => children({ connection })}
+                </ShareDBAuth>
               </WebsocketConnection>
             </AccessCheck>
           </ErrorBoundary>
         )}
       </SessionConsumer>
     )
-  }
-}
-
-export class BackendConnection extends React.PureComponent {
-  static propTypes = {
-    children: propTypes.func.isRequired
-  }
-  render () {
-    const { children } = this.props
-    return children({ connection })
   }
 }

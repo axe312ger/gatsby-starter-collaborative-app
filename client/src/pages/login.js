@@ -4,8 +4,8 @@ import propTypes from 'prop-types'
 
 import Layout from '../components/Layout'
 
-import { SessionConsumer } from '../components/session'
-import { login } from '../utils/auth-service'
+import { login } from '../utils/api/auth-service'
+import { SessionConsumer } from '../utils/api/session'
 
 class LoginHandler extends React.PureComponent {
   static propTypes = {

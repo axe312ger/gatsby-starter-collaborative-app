@@ -10,9 +10,8 @@ import HomeIcon from '@material-ui/icons/Home'
 import ViewListIcon from '@material-ui/icons/ViewList'
 import AuthIcon from '@material-ui/icons/PowerSettingsNew'
 
-import { login, logout } from '../utils/auth-service'
-
-import { SessionConsumer } from './session'
+import { login, logout } from '../utils/api/auth-service'
+import { SessionConsumer } from '../utils/api/session'
 
 export default class Drawer extends React.PureComponent {
   render () {

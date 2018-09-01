@@ -6,11 +6,11 @@ import { Location } from '@reach/router'
 
 import { withStyles } from '@material-ui/core/styles'
 
+import { SessionProvider } from '../utils/api/session'
 import withMuiTheme from '../utils/styling/withMuiTheme'
 
 import Drawer from './Drawer'
 import Header from './Header'
-import { SessionProvider } from './session'
 
 const styles = (theme) => ({
   wrapper: {

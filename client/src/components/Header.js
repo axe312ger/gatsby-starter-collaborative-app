@@ -9,9 +9,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
 
-import { login, logout } from '../utils/auth-service'
-
-import { SessionConsumer } from './session'
+import { login, logout } from '../utils/api/auth-service'
+import { SessionConsumer } from '../utils/api/session'
 
 const styles = {
   root: {

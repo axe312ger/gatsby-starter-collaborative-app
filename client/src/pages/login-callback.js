@@ -2,12 +2,12 @@ import React from 'react'
 import propTypes from 'prop-types'
 import { navigate } from 'gatsby'
 
-import { SessionProvider, SessionConsumer } from '../components/session'
 import {
   getAccessToken,
   setAccessToken,
   setIdToken
-} from '../utils/auth-service'
+} from '../utils/api/auth-service'
+import { SessionProvider, SessionConsumer } from '../utils/api/session'
 
 class LoginCallbackHandler extends React.PureComponent {
   static propTypes = {
