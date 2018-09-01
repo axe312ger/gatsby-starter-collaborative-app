@@ -1,13 +1,12 @@
 const { create, SheetsRegistry } = require('jss')
+
 const {
   createMuiTheme,
   createGenerateClassName,
   jssPreset
 } = require('@material-ui/core/styles')
-const { default: blue } = require('@material-ui/core/colors/blue')
-const { default: red } = require('@material-ui/core/colors/red')
 
-const typographyTheme = require('../utils/typography')
+const muiTheme = require('./mui-theme')
 
 function getTheme (uiTheme) {
   const theme = createMuiTheme(uiTheme)
@@ -20,20 +19,7 @@ function getTheme (uiTheme) {
   return theme
 }
 
-const theme = getTheme({
-  // Generate your own pallette via https://material-ui.com/style/color/#color-tool
-  palette: {
-    primary: {
-      main: '#639'
-    },
-    secondary: blue,
-    error: red
-  },
-  typography: {
-    fontFamily: typographyTheme.options.headerFontFamily,
-    fontSize: parseInt(typographyTheme.options.baseFontSize)
-  }
-})
+const theme = getTheme(muiTheme)
 
 // Configure JSS
 const jss = create({ plugins: [...jssPreset().plugins] })

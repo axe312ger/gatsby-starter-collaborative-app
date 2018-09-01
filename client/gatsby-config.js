@@ -1,10 +1,10 @@
-const path = require('path')
+const path = require(`path`)
 const dotenv = require(`dotenv`)
 
 dotenv.config({
   path: `.env.${process.env.NODE_ENV}`
 })
-const { getPageContext } = require('./src/utils/PageContext')
+const { getPageContext } = require(`./src/utils/styling/page-context`)
 
 const pageContext = getPageContext()
 
@@ -20,13 +20,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-typography`,
       options: {
-        pathToConfigModule: `src/utils/typography`
+        pathToConfigModule: `src/utils/styling/typography`
       }
     },
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: path.resolve(__dirname, '..'),
+        path: path.resolve(__dirname, `..`),
         name: `markdown-pages`
       }
     },
