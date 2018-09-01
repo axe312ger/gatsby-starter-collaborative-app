@@ -1,11 +1,13 @@
 import React from 'react'
 import propTypes from 'prop-types'
+
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { getPageContext } from './PageContext'
 
-function withRoot (WrappedComponent) {
-  class WithRoot extends React.Component {
+import { getPageContext } from './page-context'
+
+function withMuiTheme (WrappedComponent) {
+  class WithMuiTheme extends React.Component {
     pageContext = null
 
     constructor (props) {
@@ -33,15 +35,15 @@ function withRoot (WrappedComponent) {
     }
   }
 
-  WithRoot.propTypes = {
+  WithMuiTheme.propTypes = {
     pageContext: propTypes.object
   }
 
   const wrappedComponentName =
     WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
-  WithRoot.displayName = `withFoo(${wrappedComponentName})`
-  return WithRoot
+  WithMuiTheme.displayName = `withMuiTheme(${wrappedComponentName})`
+  return WithMuiTheme
 }
 
-export default withRoot
+export default withMuiTheme

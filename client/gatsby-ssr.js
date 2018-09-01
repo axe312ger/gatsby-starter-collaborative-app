@@ -1,7 +1,7 @@
 const React = require('react')
 const { renderToString } = require('react-dom/server')
 const { JssProvider } = require('react-jss')
-const { getPageContext } = require('./src/utils/PageContext')
+const { getPageContext } = require('./src/utils/styling/page-context')
 
 exports.replaceRenderer = ({
   bodyComponent,

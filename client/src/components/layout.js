@@ -6,7 +6,7 @@ import { Location } from '@reach/router'
 
 import { withStyles } from '@material-ui/core/styles'
 
-import withRoot from '../utils/withRoot'
+import withMuiTheme from '../utils/styling/withMuiTheme'
 
 import Drawer from './Drawer'
 import Header from './Header'
@@ -124,4 +124,4 @@ class Layout extends React.Component {
   }
 }
 
-export default withRoot(withStyles(styles)(Layout))
+export default withMuiTheme(withStyles(styles)(Layout))
