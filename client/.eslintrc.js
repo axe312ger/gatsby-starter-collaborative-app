@@ -2,22 +2,23 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    'cypress/globals': true,
+    'cypress/globals': true
   },
   plugins: ['cypress', 'react'],
   globals: {
-    graphql: false,
+    graphql: false
   },
   parserOptions: {
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true,
+      jsx: true
     },
-    ecmaVersion: '2017',
+    ecmaVersion: '2017'
   },
   parser: 'babel-eslint',
   extends: ['standard', 'standard-react'],
   rules: {
     'react/require-optimization': 1,
-  },
+    'import/no-unresolved': [2, { commonjs: true }]
+  }
 }
