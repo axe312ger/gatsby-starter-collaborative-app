@@ -2,7 +2,8 @@ import React from 'react'
 import { Router } from '@reach/router'
 
 import ErrorBoundary from '../components/ErrorBoundary'
-import { SessionConsumer, BackendConnection } from '../components/session'
+import SecureSection from '../utils/api/SecureSection'
+import { SessionConsumer } from '../utils/api/session'
 
 import ClickersPublic from './routes/ClickersPublic'
 import ClickersPrivate from './routes/ClickersPrivate'
@@ -14,7 +15,7 @@ export default class App extends React.PureComponent {
     return (
       <SessionConsumer>
         {(session) => (
-          <BackendConnection>
+          <SecureSection>
             {({ connection }) => (
               <ErrorBoundary title={'Something went wrong 🤕'}>
                 <Router basepath='/app'>
@@ -40,7 +41,7 @@ export default class App extends React.PureComponent {
                 </Router>
               </ErrorBoundary>
             )}
-          </BackendConnection>
+          </SecureSection>
         )}
       </SessionConsumer>
     )
