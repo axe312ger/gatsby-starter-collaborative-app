@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { StaticQuery, graphql } from 'gatsby'
 import { Location } from '@reach/router'
@@ -8,8 +8,8 @@ import { withStyles } from '@material-ui/core/styles'
 
 import withRoot from '../utils/withRoot'
 
-import Drawer from './drawer'
-import Header from './header'
+import Drawer from './Drawer'
+import Header from './Header'
 import { SessionProvider } from './session'
 
 const styles = (theme) => ({
@@ -32,8 +32,8 @@ const styles = (theme) => ({
 
 class Layout extends React.Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
-    classes: PropTypes.object.isRequired
+    children: propTypes.node.isRequired,
+    classes: propTypes.object.isRequired
   }
 
   render () {

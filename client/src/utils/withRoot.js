@@ -1,10 +1,10 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import { MuiThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { getPageContext } from './PageContext'
 
-function withRoot (Component) {
+function withRoot (WrappedComponent) {
   class WithRoot extends React.Component {
     pageContext = null
 
@@ -27,16 +27,20 @@ function withRoot (Component) {
         >
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Component {...this.props} />
+          <WrappedComponent {...this.props} />
         </MuiThemeProvider>
       )
     }
   }
 
   WithRoot.propTypes = {
-    pageContext: PropTypes.object
+    pageContext: propTypes.object
   }
 
+  const wrappedComponentName =
+    WrappedComponent.displayName || WrappedComponent.name || 'Component'
+
+  WithRoot.displayName = `withFoo(${wrappedComponentName})`
   return WithRoot
 }
 

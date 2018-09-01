@@ -5,7 +5,7 @@ import propTypes from 'prop-types'
 import Button from '@material-ui/core/Button'
 import { withStyles } from '@material-ui/core/styles'
 
-import Layout from '../components/layout'
+import Layout from '../components/Layout'
 
 const styles = (theme) => ({
   wrapper: {

@@ -7,7 +7,7 @@ import {
   getAccessToken,
   setAccessToken,
   setIdToken
-} from '../utils/AuthService'
+} from '../utils/auth-service'
 
 class LoginCallbackHandler extends React.PureComponent {
   static propTypes = {

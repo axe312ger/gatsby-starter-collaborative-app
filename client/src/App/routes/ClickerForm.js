@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import propTypes from 'prop-types'
 import { Link, push } from 'gatsby'
 
 import { Form, Field } from 'react-final-form'
@@ -34,10 +34,10 @@ const validateName = (value) =>
 
 class ClickerForm extends React.PureComponent {
   static propTypes = {
-    connection: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired,
-    fullScreen: PropTypes.bool.isRequired,
-    createPrivate: PropTypes.bool
+    connection: propTypes.object.isRequired,
+    classes: propTypes.object.isRequired,
+    fullScreen: propTypes.bool.isRequired,
+    createPrivate: propTypes.bool
   }
   static defaultProps = {
     createPrivate: false
