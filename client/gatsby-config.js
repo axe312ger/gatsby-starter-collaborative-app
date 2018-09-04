@@ -44,6 +44,7 @@ module.exports = {
       }
     },
     `gatsby-plugin-offline`,
-    `gatsby-plugin-webpack-size`
+    `gatsby-plugin-webpack-size`,
+    `gatsby-plugin-netlify-cache`
   ]
 }
