@@ -57,6 +57,7 @@
     "final-form": "^4.10.0",
     "gatsby": "^2.0.0-rc.0",
     "gatsby-plugin-manifest": "^2.0.2-rc.0",
+    "gatsby-plugin-netlify-cache": "^1.0.0-beta0",
     "gatsby-plugin-offline": "^2.0.0-rc.0",
     "gatsby-plugin-react-helmet": "^3.0.0-rc.0",
     "gatsby-plugin-typography": "^2.2.0-rc.0",
