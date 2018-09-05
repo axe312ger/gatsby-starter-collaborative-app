@@ -42,7 +42,7 @@
     "@types/jest": "^23.3.1",
     "@types/node": "^10.9.4",
     "@types/ws": "^6.0.0",
-    "codecov": "^3.0.4",
+    "codecov": "^3.1.0",
     "concurrently": "^4.0.1",
     "jest": "^23.5.0",
     "jest-junit": "^5.1.0",
