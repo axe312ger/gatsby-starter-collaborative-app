@@ -2,18 +2,17 @@ version: 2.0
 jobs:
   client-lint:
     docker:
-      - image: cypress/base:10
+      - image: circleci/node:10
     working_directory: ~/project/client
     steps:
       - checkout:
           path: ~/project
       - restore_cache:
           keys:
-            - v1-client-lint-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
-      - run: npm ci
-      - run: npx cypress verify # this ensures that the Cypress verified status is cached too
+            - v1-client-lint-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum "../.circleci/config.yml" }}
+      - run: npm i --no-optional
       - save_cache:
-          key: v1-client-lint-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: v1-client-lint-deps-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum "../.circleci/config.yml" }}
           paths:
             - ~/project/client/node_modules
             - ~/.npm
