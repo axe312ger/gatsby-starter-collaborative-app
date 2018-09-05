@@ -5,7 +5,7 @@ ID = "gatsby-starter-collaborative-app"
   base    = "client/"
   publish = "client/public/"
   command = "npm run build"
-  environment = { NODE_ENV = "production" }
+  environment = { NODE_ENV = "development", NPM_FLAGS = "--no-optional" }
 
 [context.deploy-preview]
   command = "npm run build:netlify-preview"
