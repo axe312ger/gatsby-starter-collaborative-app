@@ -1,6 +1,19 @@
 # Gatsby Starter Collaborative App
 
+
 > A Gatsby starter project which demonstrates how to write an app with Gatsby which supports authentication, session management, and collaborative editing
+
+<center>
+
+![License](https://img.shields.io/github/license/axe312ger/gatsby-starter-collaborative-app.svg)
+[![CircleCI](https://img.shields.io/circleci/project/github/axe312ger/gatsby-starter-collaborative-app.svg)](https://circleci.com/gh/axe312ger/gatsby-starter-collaborative-app)
+[![codecov](https://codecov.io/gh/axe312ger/gatsby-starter-collaborative-app/branch/master/graph/badge.svg)](https://codecov.io/gh/axe312ger/gatsby-starter-collaborative-app)
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+
+</center>
+
 
 It uses the following technologies:
 
