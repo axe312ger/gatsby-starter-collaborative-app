@@ -26,7 +26,23 @@ After all, it is a combination of the following starters, tutorials & examples:
 * Painless form management and UX via [react-final-form](https://github.com/final-form/react-final-form)
 * @todo complete this list
 
-## Setup
+## TL;DR
+
+```sh
+# Install in repository root, it will automatically install the client & the server
+npm ci
+
+# For OSX, install mongodb if you don't have
+# For Linux, see https://docs.mongodb.com/manual/administration/install-on-linux/
+brew install mongodb
+
+# Start client and server
+npm run dev
+
+# See ./client for the Gatsby app
+# See ./server for the ShareDB API
+```
+
 
 You may start with the client, it is a Gatsby project with everything you need for a proper progressive web app. This takes 2 minutes.
 
