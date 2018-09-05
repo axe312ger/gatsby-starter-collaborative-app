@@ -4,6 +4,12 @@
   "description": "> A Gatsby starter project which demonstrates how to write an app with Gatsby which supports authentication, session management, and collaborative editing",
   "main": "index.js",
   "scripts": {
+    "postinstall": "run-s install:*",
+    "install:client": "cd client && npm ci",
+    "install:server": "cd server && npm ci",
+    "dev": "concurrently --kill-others 'npm:dev:client' 'npm:dev:server'",
+    "dev:client": "cd client && npm run develop",
+    "dev:server": "cd server && npm run dev",
     "precommit": "run-s precommit:*",
     "precommit:client": "cd client && npm run precommit",
     "precommit:server": "cd server && npm run precommit",
@@ -22,6 +28,7 @@
   },
   "homepage": "https://github.com/axe312ger/gatsby-starter-collaborative-app#readme",
   "devDependencies": {
+    "concurrently": "^4.0.1",
     "husky": "^0.14.3",
     "npm-run-all": "^4.1.3"
   }
