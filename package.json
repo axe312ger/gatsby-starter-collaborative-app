@@ -28,6 +28,10 @@
     "url": "https://github.com/axe312ger/gatsby-starter-collaborative-app/issues"
   },
   "homepage": "https://github.com/axe312ger/gatsby-starter-collaborative-app#readme",
+  "engines": {
+    "node": ">=10.0.0",
+    "npm": ">=6.0.0"
+  },
   "devDependencies": {
     "concurrently": "^4.0.1",
     "gitmoji-cli": "^1.9.0",
