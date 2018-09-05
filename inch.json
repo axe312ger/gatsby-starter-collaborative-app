@@ -3,6 +3,6 @@
     "included": [
       "client/src/**/*.js",
       "server/src/**/*.ts"
-    ],
+    ]
   }
 }
