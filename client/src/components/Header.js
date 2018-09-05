@@ -1,6 +1,5 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { Link } from 'gatsby'
 
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -8,6 +7,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
+import BackIcon from '@material-ui/icons/ArrowBack'
 
 import { login, logout } from '../utils/api/auth-service'
 import { SessionConsumer } from '../utils/api/session'
@@ -45,9 +45,15 @@ class Header extends React.PureComponent {
                 >
                   <MenuIcon />
                 </IconButton>
-                <Button component={Link} to='/' size='large' color='inherit'>
-                  {siteTitle}
-                </Button>
+                <IconButton
+                  className={classes.menuButton}
+                  onClick={() => window.history.back()}
+                  color='inherit'
+                  aria-label='Menu'
+                >
+                  <BackIcon />
+                </IconButton>
+                {siteTitle}
               </div>
               <div>
                 <SessionConsumer>
