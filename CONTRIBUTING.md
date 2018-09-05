@@ -3,6 +3,22 @@
 
 *Atom Dev Team* - [CONTRIBUTING.md](https://github.com/atom/atom/blob/master/CONTRIBUTING.md)
 
+
+## Code Style Quality
+
+To ensure the same coding style is applied over all files, we use some tools which lint and format the code:
+
+* [ESLint](https://eslint.org/) for the client
+* [TSLint](https://palantir.github.io/tslint/) for the server
+* [Prettier](https://prettier.io/) for both
+
+These tools are run as `precommit` git hook to ensure all your commits follow our code style guidelines.
+
+If your code does not apply, try the following before jumping into manually changing any code in client & server:
+
+* client: `npm run lint -- --fix` to automatically fix eslint errors
+* both: `npm run format` to reformat files you modified
+
 ## Pull Requests
 
 Every pull request is very welcome, please make sure to provide the following:
