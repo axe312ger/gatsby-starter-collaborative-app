@@ -8,14 +8,15 @@
   "main": "src/index.ts",
   "scripts": {
     "precommit": "lint-staged",
+    "postinstall": "npm run build",
     "dev": "concurrently --kill-others 'npm:dev:db' 'npm:dev:server'",
     "dev:db": "mongod --config /usr/local/etc/mongod.conf",
     "dev:server": "nodemon -x ts-node . -e ts",
-    "postinstall": "npm run build",
     "build": "tsc --pretty",
     "start": "node dist/index.js",
-    "test": "JEST_JUNIT_OUTPUT=../test-reports/jest/server-unit-test-results.xml jest",
     "lint": "tslint src/**/*.ts",
+    "format": "prettier --write 'src/**/*.ts'",
+    "test": "JEST_JUNIT_OUTPUT=../test-reports/jest/server-unit-test-results.xml jest",
     "deploy-production": "cd .. && now --docker --public && now alias"
   },
   "lint-staged": {
