@@ -4,7 +4,7 @@
   "description": "> A Gatsby starter project which demonstrates how to write an app with Gatsby which supports authentication, session management, and collaborative editing",
   "main": "index.js",
   "scripts": {
-    "postinstall": "run-s install:*",
+    "postinstall": "run-s install:* && gitmoji -i",
     "install:client": "cd client && npm ci",
     "install:server": "cd server && npm ci",
     "dev": "concurrently --kill-others 'npm:dev:client' 'npm:dev:server'",
@@ -17,8 +17,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s precommit:*",
-      "commit": "gitmoji -c"
+      "pre-commit": "run-s precommit:*"
     }
   },
   "repository": {
