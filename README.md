@@ -37,6 +37,7 @@ npm run dev
   - [Requirements](#requirements)
   - [Installation](#installation)
 - [Developing](#developing)
+- [Documentation](#documentation)
   - [Structure](#structure)
 - [Set up your own app](#set-up-your-own-app)
   - [Cleanup](#cleanup)
@@ -122,6 +123,14 @@ This will:
 * Run `gatsby develop` in the client directory
 * Start MongoDB
 * Start the actual backend Server
+
+## Documentation
+
+[![Inch CI](https://inch-ci.org/github/axe312ger/gatsby-starter-collaborative-app.svg)](https://inch-ci.org/github/axe312ger/gatsby-starter-collaborative-app)
+
+Besides of this README.md, it is planned to have the client itself give deeper documentation about the project.
+
+Additionally, the code will contain links to their original origins to provide context.
 
 ### Structure
 
