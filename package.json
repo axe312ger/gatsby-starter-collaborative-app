@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "concurrently": "^4.0.1",
-    "gitmoji-cli": "^1.9.0",
+    "gitmoji-cli": "^1.9.2",
     "husky": "^1.1.1",
     "npm-run-all": "^4.1.3"
   }
