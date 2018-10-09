@@ -10,12 +10,16 @@
     "dev": "concurrently --kill-others 'npm:dev:client' 'npm:dev:server'",
     "dev:client": "cd client && npm run develop",
     "dev:server": "cd server && npm run dev",
-    "commit": "gitmoji -c",
-    "precommit": "run-s precommit:*",
     "precommit:client": "cd client && npm run precommit",
     "precommit:server": "cd server && npm run precommit",
     "deploy:server:production": "now --public && now alias",
     "cleanup:now": "now rm gatsby-starter-collaborative-app --safe"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "run-s precommit:*",
+      "commit": "gitmoji -c"
+    }
   },
   "repository": {
     "type": "git",
@@ -35,7 +39,7 @@
   "devDependencies": {
     "concurrently": "^4.0.1",
     "gitmoji-cli": "^1.9.0",
-    "husky": "^0.14.3",
+    "husky": "^1.1.1",
     "npm-run-all": "^4.1.3"
   }
 }
